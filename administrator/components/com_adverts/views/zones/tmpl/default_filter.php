@@ -1,4 +1,4 @@
-<?php /** $Id$ **/ ?>
+<? /** $Id$ **/ ?>
 <?php // no direct access
 defined('KOOWA') or die( 'Restricted access' ); ?>
 

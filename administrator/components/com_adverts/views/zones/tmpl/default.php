@@ -1,4 +1,4 @@
-<?php /** $Id$ **/ ?>
+<? /** $Id$ **/ ?>
 <?php // no direct access
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
@@ -82,7 +82,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			
 			<? if (!count($zones)) : ?>
 				<tr>
-					<td colspan="5" align="center">
+					<td colspan="6" align="center">
 						<?= @text('No Zones Found'); ?>
 					</td>
 				</tr>
