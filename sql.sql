@@ -69,3 +69,28 @@ CREATE TABLE `#__adverts_campaigns` (
   `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
+
+CREATE TABLE `#__adverts_advertisements` (
+  `adverts_advertisement_id` SERIAL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `campaign_id` int(11) NOT NULL,
+  `zone_id` varchar(255) NOT NULL,
+  `file_url` varchar(255) NOT NULL,
+  `alt_file_url` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `target` varchar(20) NOT NULL,
+  `alt_text` varchar(255) NOT NULL,
+  `enabled` tinyint(3) NOT NULL,
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `custom_banner_code` text NOT NULL,
+  `impressions` int(11) NOT NULL,
+  `clicks` int(11) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `version` int(11) unsigned NOT NULL DEFAULT '1',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+);

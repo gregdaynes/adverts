@@ -28,6 +28,10 @@ class ComAdvertsControllerToolbarMenubar extends ComDefaultControllerToolbarMenu
             'active' => ($name == 'campaign')
         ));
         
+        $this->addCommand('Advertisements', array(
+            'href'   => JRoute::_('index.php?option=com_adverts&view=advertisements'),
+            'active' => ($name == 'advertisement')
+        ));
                 
         return parent::getCommands();
     }

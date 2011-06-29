@@ -9,12 +9,7 @@ class ComAdvertsControllerToolbarSites extends ComDefaultControllerToolbarDefaul
 		$this->addSeperator()
 		     ->addEnable()
 		     ->addDisable()
-		     ->addSeperator()
-		     ->addModal(array(
-			'label'	 => 'Preferences',
-			'height' => 88,
-			'href'   => 'index.php?option=com_config&controller=component&component=com_adverts'
-		));
+			 ;
 		 
 		return parent::getCommands();
 	}

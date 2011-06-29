@@ -25,9 +25,6 @@
 				<th>
 					<?= @helper('grid.sort', array('column' => 'weight', 'title' => 'Weight')); ?>
 				</th>
-				<th>
-					<?= @helper('grid.sort', array('column' => 'contact_name', 'title' => 'Client Name')); ?>
-				</th>
 				<th width="5%">
 				    <?= @helper('grid.sort', array('column' => 'enabled', 'title' => 'Published')); ?>
 				</th>
@@ -87,10 +84,6 @@
 				</td>
 				<td align="center">
 					<?= @escape($campaign->weight); ?>
-				</td>
-				<td align="center">
-					<? $model = KFactory::get('admin::com.adverts.model.clients')->set('id', $campaign->client); ?>
-					<?= $model->getItem()->name; ?>
 				</td>
 				<td align="center">
 				    <?= @helper('grid.enable', array('row' => $campaign)) ?>
