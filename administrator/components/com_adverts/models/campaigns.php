@@ -12,23 +12,53 @@ class ComAdvertsModelCampaigns extends ComDefaultModelDefault
             ->insert('enabled', 'int')
             ->insert('client',	'int')
             ->insert('zone',	'int')
+            ->insert('view',	'string')
             ;
-    }
+	}
     
     protected function _buildQueryColumns(KDatabaseQuery $query)
     {
     	parent::_buildQueryColumns($query);
     	
-    	$query
-    		->select('GROUP_CONCAT(cz.zid) AS zones');
+    	$state = $this->_state;
+    	
+    	if ($state->view == 'campaign')
+    	{
+	    	$query
+	    		->select('GROUP_CONCAT(cz.zid) AS zones');
+	    }
+    }
+    
+    protected function _buildQueryFrom(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryFrom($query);
+    	
+    	$state = $this->_state;
+    	
+    	if ($state->view == 'campaigns' && is_numeric($state->zone) == false)
+    	{
+    		$query
+    			->from('adverts_campaign_zones AS cz');
+    	}
     }
     
     protected function _buildQueryJoins(KDatabaseQuery $query)
     {
     	parent::_buildQueryJoins($query);
     	
-    	$query
-    		->join('LEFT', 'adverts_campaign_zones AS cz', 'cz.cid = tbl.adverts_campaign_id');
+    	$state = $this->_state;
+    	
+    	if ($state->view == 'campaign')
+    	{
+	    	$query
+	    		->join('LEFT', 'adverts_campaign_zones AS cz', 'cz.cid = tbl.adverts_campaign_id');
+	    }
+	    
+	    if ($state->view == 'campaigns' && is_numeric($state->zone))
+	    {
+		    $query
+		    	->join('LEFT', 'adverts_campaign_zones AS cz', 'cz.cid = tbl.adverts_campaign_id');
+		}
     }
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -48,5 +78,6 @@ class ComAdvertsModelCampaigns extends ComDefaultModelDefault
         if (is_numeric($state->zone)) {
         	$query->where('cz.zid', '=', $state->zone);
         }
+
     }
 }
