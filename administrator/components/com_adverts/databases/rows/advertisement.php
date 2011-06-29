@@ -6,14 +6,32 @@ class ComAdvertsDatabaseRowAdvertisement extends KDatabaseRowDefault
 {
 	public function save()
 	{	
-
-		if (is_array($this->zones)) {
-			$this->zones = implode(',', $this->zones);
-		}
-		
+		$modified = $this->getModified();
 		$result = parent::save();
 		
-		return (bool) $result;
+		if (in_array('zones', $modified))
+		{
+			$table = KFactory::get('admin::com.adverts.database.table.advertisement_zones');
+			
+			// delete any existing entries for campaign
+			$table->select(array('aid' => $this->id))->delete();
+			
+			if (is_array($this->zones))
+			{
+				foreach($this->zones as $zone)
+				{
+					$table
+						->select(null, KDatabase::FETCH_ROW)
+						->setData(array(
+							'aid'	=> $this->id,
+							'zid'	=> $zone
+						))
+						->save();
+					
+				}
+			}
+		}
 		
+		return (bool) $result;
 	}
 }

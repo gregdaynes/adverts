@@ -12,7 +12,53 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
             ->insert('enabled', 'int')
             ->insert('client',	'int')
             ->insert('zone',	'int')
+            ->insert('view',	'string')
             ;
+    }
+    
+    protected function _buildQueryColumns(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryColumns($query);
+    	
+    	$state = $this->_state;
+    	
+    	if ($state->view == 'advertisement')
+    	{
+        	$query
+        		->select('GROUP_CONCAT(az.zid) AS zones');
+        }
+    }
+    
+    protected function _buildQueryFrom(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryFrom($query);
+    	
+    	$state = $this->_state;
+    	
+    	if ($state->view == 'advertisement' && is_numeric($state->zone) == false)
+    	{
+    		$query
+    			->from('adverts_advertisement_zones AS az');
+    	}
+    }
+    
+    protected function _buildQueryJoins(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryJoins($query);
+    	
+    	$state = $this->_state;
+    	
+    	if ($state->view == 'advertisements')
+    	{
+        	$query
+        		->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id');
+        }
+        
+        if ($state->view == 'campaigns' && is_numeric($state->zone))
+        {
+    	    $query
+    	    	->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id');
+    	}
     }
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -30,7 +76,7 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
         }
         
         if (is_numeric($state->zone)) {
-        	$query->where('tbl.zones', 'LIKE', '%'.$state->zone.'%');
+        	$query->where('az.zid', '=', $state->zone);
         }
     }
 }

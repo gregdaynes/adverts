@@ -75,7 +75,6 @@ CREATE TABLE `#__adverts_advertisements` (
   `slug` varchar(255) NOT NULL,
   `client_id` int(11) NOT NULL,
   `campaign_id` int(11) NOT NULL,
-  `zones` varchar(255) NOT NULL,
   `file_url` varchar(255) NOT NULL,
   `alt_file_url` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
@@ -95,8 +94,14 @@ CREATE TABLE `#__adverts_advertisements` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
-CREATE TABLE `jos_adverts_campaign_zones` (
-  `id` SERIAL,
+CREATE TABLE `#__adverts_campaign_zones` (
+  `adverts_campaign_zone_id` SERIAL,
   `cid` bigint(20) NOT NULL,
+  `zid` bigint(20) NOT NULL
+);
+
+CREATE TABLE `#__adverts_advertisement_zones` (
+  `adverts_advertisement_zone_id` SERIAL,
+  `aid` bigint(20) NOT NULL,
   `zid` bigint(20) NOT NULL
 );
