@@ -261,6 +261,92 @@ class ComAdvertsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		return $this->optionlist($config);
 	}
 	
+	public function campaign($config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'model'		=> 'campaigns',
+			'name'		=> 'adverts_campaign_id',
+			'value'		=> 'id',
+			'text'		=> 'name',
+			'attribs'	=> array(
+				'id'		=> 'campaign_id',
+			),
+		))->append(array(
+			'selected' => $config->selected,
+			'deselect'  => true,
+		));
+		
+		$identifier = 'admin::com.adverts.model.campaigns';
+			
+		$model = KFactory::tmp($identifier);
+		$list = $model->getList($config->column);
+		
+		$options   = array();
+		if($config->deselect) {
+			$options[] = $this->option(array('text' => '- '.JText::_( 'Select').' -'));
+		}
+		
+		foreach($list as $item) {
+			$options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
+		}
+		
+		//Add the options to the config object
+		$config->options = $options;
+	
+		return $this->optionlist($config);
+	}
+	
+	public function target($config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'deselect'  => true,
+			'prompt'	=> '- Select -',
+			'attribs'	=> $config->attribs
+		))->append(array(
+			'selected'	=> $config->selected
+		));
+				
+		if($config->deselect) {
+			$options[] =  $this->option(array('text' => JText::_($config->prompt)));
+		}
+		
+		$options[] = $this->option(array('text' => '_blank', 'value' => '_blank'));
+		$options[] = $this->option(array('text' => '_parent', 'value' => '_parent'));
+		$options[] = $this->option(array('text' => '_self', 'value' => '_self'));
+		$options[] = $this->option(array('text' => '_top', 'value' => '_top'));
+				
+		//Add the options to the config object
+		$config->options = $options;
+		
+		return $this->optionlist($config);
+	}
+
+	public function type($config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'deselect'  => true,
+			'prompt'	=> '- Select -',
+			'attribs'	=> $config->attribs
+		))->append(array(
+			'selected'	=> $config->selected
+		));
+				
+		if($config->deselect) {
+			$options[] =  $this->option(array('text' => JText::_($config->prompt)));
+		}
+		
+		$options[] = $this->option(array('text' => 'Image/Flash', 'value' => '1'));
+		$options[] = $this->option(array('text' => 'HTML', 'value' => '2'));
+				
+		//Add the options to the config object
+		$config->options = $options;
+		
+		return $this->optionlist($config);
+	}
+	
 	public function fetch_size($config = array())
 	{
 		$config = new KConfig($config);

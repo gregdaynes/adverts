@@ -11,6 +11,7 @@ class ComAdvertsModelCampaigns extends ComDefaultModelDefault
         $this->_state
             ->insert('enabled', 'int')
             ->insert('client',	'int')
+            ->insert('zone',	'int')
             ;
     }
     
@@ -26,6 +27,10 @@ class ComAdvertsModelCampaigns extends ComDefaultModelDefault
         
         if (is_numeric($state->website)) {
         	$query->where('tbl.client_id', '=', $state->client);
+        }
+        
+        if (is_numeric($state->zone)) {
+        	$query->where('tbl.zones', 'LIKE', '%'.$state->zone.'%');
         }
     }
 }

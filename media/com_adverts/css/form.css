@@ -30,3 +30,7 @@ label[for="url"] input#url {
 	margin: 0;
 	padding: 2px;
 }
+
+.hidden {
+	display: none;
+}

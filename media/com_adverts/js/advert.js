@@ -92,5 +92,33 @@ window.addEvent('domready', function() {
 		}).send('option=com_adverts&view=zones&format=json'+campaignId);
 	});
 	
-
+	/**
+	 * Type Select
+	 *
+	 * hide/display file chooser and wysiwyg
+	 */
+	var typeSelect = $(document).getElement('[name=type]');
+	
+	typeSelect.addEvent('change', function() {
+		
+		if (this.getProperty('value') == '') {
+			$$('.panel.advertisement').addClass('hidden');
+		}
+		
+		if (this.getProperty('value') == 1) {
+			$$('.file_upload').getParent('tr').removeClass('hidden');
+			$$('.panel.advertisement').removeClass('hidden');
+			$$('.custom_banner_code').getParent('tr').addClass('hidden');
+		}
+		
+		if (this.getProperty('value') == 2) {
+			$$('.file_upload').getParent('tr').addClass('hidden');
+			$$('.panel.advertisement').removeClass('hidden');
+			$$('.custom_banner_code').getParent('tr').removeClass('hidden');
+		}
+	});
+	
+	if (typeSelect.getProperty('value') == '') {
+		$$('.panel.advertisement').addClass('hidden');
+	}
 });

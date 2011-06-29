@@ -25,12 +25,12 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
             $query->where('tbl.enabled', '=', $state->enabled);
         }
         
-        if (is_numeric($state->website)) {
+        if (is_numeric($state->client)) {
         	$query->where('tbl.client_id', '=', $state->client);
         }
         
-        if (is_numeric($state->website)) {
-        	$query->where('tbl.zone_id', 'LIKE', '%'.$state->zone.'%');
+        if (is_numeric($state->zone)) {
+        	$query->where('tbl.zones', 'LIKE', '%'.$state->zone.'%');
         }
     }
 }

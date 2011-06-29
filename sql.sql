@@ -76,7 +76,7 @@ CREATE TABLE `#__adverts_advertisements` (
   `slug` varchar(255) NOT NULL,
   `client_id` int(11) NOT NULL,
   `campaign_id` int(11) NOT NULL,
-  `zone_id` varchar(255) NOT NULL,
+  `zones` varchar(255) NOT NULL,
   `file_url` varchar(255) NOT NULL,
   `alt_file_url` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
@@ -90,6 +90,7 @@ CREATE TABLE `#__adverts_advertisements` (
   `impressions` int(11) NOT NULL,
   `clicks` int(11) NOT NULL,
   `type` tinyint(1) NOT NULL,
+  `notes` mediumtext NOT NULL,
   `version` int(11) unsigned NOT NULL DEFAULT '1',
   `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
