@@ -44,5 +44,9 @@ class ComAdvertsModelCampaigns extends ComDefaultModelDefault
         if (is_numeric($state->website)) {
         	$query->where('tbl.client_id', '=', $state->client);
         }
+        
+        if (is_numeric($state->zone)) {
+        	$query->where('cz.zid', '=', $state->zone);
+        }
     }
 }
