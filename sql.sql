@@ -47,3 +47,25 @@ CREATE TABLE `#__adverts_clients` (
   `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
+
+CREATE TABLE `#__adverts_campaigns` (
+  `adverts_campaign_id` SERIAL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `price_model` tinyint(1) NOT NULL,
+  `rate` int(11) NOT NULL,
+  `impressions` int(12) NOT NULL,
+  `clicks` int(12) NOT NULL,
+  `weight` int(11) NOT NULL,
+  `zones` varchar(255) NOT NULL,
+  `notes` mediumtext NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `client_id` int(11) NOT NULL,
+  `sales_id` int(11) NOT NULL,
+  `version` int(11) unsigned NOT NULL DEFAULT '1',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+);

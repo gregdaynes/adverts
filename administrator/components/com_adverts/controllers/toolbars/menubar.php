@@ -18,6 +18,17 @@ class ComAdvertsControllerToolbarMenubar extends ComDefaultControllerToolbarMenu
             'active' => ($name == 'zone')
         ));
         
+        $this->addCommand('Clients', array(
+            'href'   => JRoute::_('index.php?option=com_adverts&view=clients'),
+            'active' => ($name == 'client')
+        ));
+        
+        $this->addCommand('Campaigns', array(
+            'href'   => JRoute::_('index.php?option=com_adverts&view=campaigns'),
+            'active' => ($name == 'campaign')
+        ));
+        
+                
         return parent::getCommands();
     }
 }
