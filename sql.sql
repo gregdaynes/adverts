@@ -57,7 +57,6 @@ CREATE TABLE `#__adverts_campaigns` (
   `impressions` int(12) NOT NULL,
   `clicks` int(12) NOT NULL,
   `weight` int(11) NOT NULL,
-  `zones` varchar(255) NOT NULL,
   `notes` mediumtext NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -94,4 +93,10 @@ CREATE TABLE `#__adverts_advertisements` (
   `version` int(11) unsigned NOT NULL DEFAULT '1',
   `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+);
+
+CREATE TABLE `jos_adverts_campaign_zones` (
+  `id` SERIAL,
+  `cid` bigint(20) NOT NULL,
+  `zid` bigint(20) NOT NULL
 );
