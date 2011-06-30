@@ -33,4 +33,5 @@ label[for="url"] input#url {
 
 .hidden {
 	display: none;
+	height: 0;
 }

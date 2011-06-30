@@ -31,6 +31,18 @@ class ComAdvertsDatabaseRowAdvertisement extends KDatabaseRowDefault
 				}
 			}
 		}
+			
+		if (in_array('file_url', $modified))
+		{
+			$file = KRequest::get('files.file_url', 'filename');
+			
+			if ($file['name'] != '')
+			{
+				jimport('joomla.filesystem.file');
+				jimport('joomla.filesystem.folder');
+				
+			}
+		}
 		
 		return (bool) $result;
 	}

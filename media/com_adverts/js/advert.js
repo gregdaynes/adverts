@@ -121,4 +121,12 @@ window.addEvent('domready', function() {
 	if (typeSelect.getProperty('value') == '') {
 		$$('.panel.advertisement').addClass('hidden');
 	}
+	
+	if (typeSelect.getProperty('value') == '1') {
+		$$('.custom_banner_code').getParent('tr').addClass('hidden');
+	}
+	
+	if (typeSelect.getProperty('value') == '2') {
+		$$('.file_upload').getParent('tr').addClass('hidden');
+	}
 });
