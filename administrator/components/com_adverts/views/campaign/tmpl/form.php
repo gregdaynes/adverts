@@ -1,5 +1,5 @@
 <?php /** $Id: form.php 795 2011-06-21 20:32:00Z media $ */ ?>
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>

@@ -1,14 +1,18 @@
 <?php /** $Id: form.php 795 2011-06-21 20:32:00Z media $ */ ?>
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>
-<? JHTML::_('behavior.calendar'); ?>
+<?= @helper('behavior.modal') ?>
+<?php JHTML::_('behavior.calendar'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <script src="media://com_adverts/js/advert.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 <style src="media://com_adverts/css/form.css" />
+<style src="media://com_files/css/files.css" />
+<script src="media://system/js/swiff-uploader.js" />
+<script src="media://system/js/uploader.js" />
 
 <form action="<?= @route('id='.$advertisement->id) ?>" method="post" class="-koowa-form" id="advertisement-form" enctype="multipart/form-data">
 	
@@ -184,14 +188,8 @@
 							</label>
 						</td>
 						<td>
-							<input name="file_url" type="file" />
-							
-							<? if (preg_match("#swf$#i", $advertisement->file_url )): ?>
-							<input type="checkbox" name="uploadAlt" />
-							<label for="uploadAlt">
-								<?= @text( 'Upload as alternate advertisement' ) ?>
-							</label>
-							<? endif; ?>
+							<a class="modal toolbar" href="<?= @route('index.php?option=com_adverts&view=advertisement&layout=upload&tmpl=component'); ?>" rel="{handler: 'iframe', size: {x: 640, y: 480}}">Parameters
+							</a>
 						</td>
 					</tr>
 					<? endif; ?>
@@ -210,8 +208,7 @@
 							        'height' => '300',
 							        'cols' => '60',
 							        'rows' => '20',
-							        'buttons' => false,
-							        //'options' => array('theme' => 'simple', 'pagebreak', 'readmore')
+							        'buttons' => false
 							    ));
 							?>
 						</td>

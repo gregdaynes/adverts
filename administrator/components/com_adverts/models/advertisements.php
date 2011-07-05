@@ -13,6 +13,7 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
             ->insert('client',	'int')
             ->insert('zone',	'int')
             ->insert('view',	'string')
+            ->insert('tmpl',	'string')
             ;
     }
     
