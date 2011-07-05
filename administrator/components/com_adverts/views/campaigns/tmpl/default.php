@@ -1,4 +1,4 @@
-<? /** $Id: default.php 795 2011-06-21 20:32:00Z media $ */ ?>
+<?php /** $Id: default.php 795 2011-06-21 20:32:00Z media $ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />

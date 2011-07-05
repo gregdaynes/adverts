@@ -1,4 +1,4 @@
-<? /** $Id$ **/ ?>
+<?php /** $Id$ **/ ?>
 <?php defined('KOOWA') or die('Restricted access'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />

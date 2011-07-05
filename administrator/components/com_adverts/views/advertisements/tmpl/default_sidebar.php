@@ -1,4 +1,4 @@
-<? /** $Id: default_sidebar.php 795 2011-06-21 20:32:00Z media $ */ ?>
+<?php /** $Id: default_sidebar.php 795 2011-06-21 20:32:00Z media $ */ ?>
 <?php // no direct access
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
