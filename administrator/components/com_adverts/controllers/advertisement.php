@@ -38,6 +38,10 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 				//'joomla_user_id' => $me->id
 			))
 			->save();
+			
+		print_R($attachment);
+		exit;
+		
 		
 		//Makes sure the page don't scroll after redirect when there are errors
 		if($errors) $this->_redirect_hash = false;

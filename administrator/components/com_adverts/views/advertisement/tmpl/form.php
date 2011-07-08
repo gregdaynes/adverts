@@ -151,33 +151,6 @@
 			<table class="admintable" width="100%">
 				<tbody>
 					
-					<? if ($advertisement->file_url != null): ?>
-					<tr>
-						<td valign="top" class="key">
-							<label>
-								<?= @text( 'Selected Advertisement' ) ?>
-							</label>
-						</td>
-						<td>
-							<?= @escape($advertisement->file_url); ?>
-						</td>
-					</tr>
-					<? endif; ?>
-					
-					<? if ($advertisement->alt_file_url != null): ?>
-					<tr>
-						<td valign="top" class="key">
-							<label>
-								<?= @text( 'Selected Alternate Advertisement' ) ?>
-							</label>
-						</td>
-						<td>
-							<?= @escape($advertisement->alt_file_url); ?>
-						</td>
-					</tr>
-					<? endif; ?>
-					
-					<? if ($advertisement->file_url == null): ?>
 					<tr>
 						<td valign="top" class="key file_upload">
 							<label for="file_url">
@@ -185,11 +158,10 @@
 							</label>
 						</td>
 						<td>
-							X <?= @escape($advertisement->file_url); ?>
-							<input type="file" name="file_url" id="file_url" />					
+							<?= @escape($advertisement->file_url.' - '); ?><input type="file" name="file_url" id="file_url" />					
 						</td>
 					</tr>
-					<? endif; ?>
+					
 					
 					<tr>
 						<td valign="middle" class="key custom_banner_code">
