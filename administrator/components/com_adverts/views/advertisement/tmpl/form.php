@@ -10,9 +10,6 @@
 <script src="media://com_adverts/js/advert.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 <style src="media://com_adverts/css/form.css" />
-<style src="media://com_files/css/files.css" />
-<script src="media://system/js/swiff-uploader.js" />
-<script src="media://system/js/uploader.js" />
 
 <form action="<?= @route('id='.$advertisement->id) ?>" method="post" class="-koowa-form" id="advertisement-form" enctype="multipart/form-data">
 	
@@ -188,8 +185,8 @@
 							</label>
 						</td>
 						<td>
-							<a class="modal toolbar" href="<?= @route('index.php?option=com_adverts&view=advertisement&layout=upload&tmpl=component'); ?>" rel="{handler: 'iframe', size: {x: 640, y: 480}}">Parameters
-							</a>
+							X <?= @escape($advertisement->file_url); ?>
+							<input type="file" name="file_url" id="file_url" />					
 						</td>
 					</tr>
 					<? endif; ?>
