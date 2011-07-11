@@ -13,6 +13,8 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 	
 	public function setAttachments(KCommandContext $context)
 	{
+		jimport( 'joomla.filesystem.file' );
+	
 		$data			= $context['result'];
 
 		if(is_a($data, 'KDatabaseRowsetInterface')) $data = (object) end($data->getData());
@@ -20,42 +22,52 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 		$errors			= array();
 		$identifier		= $this->getIdentifier();
 		$destination	= JPATH_ROOT.'/media/'.$identifier->type.'_'.$identifier->package.'/attachments/';
-		$attachment		= KRequest::get('files.file_url', 'raw');
+		$attachment		= KRequest::get('files.file_upload', 'raw');
 		
-	    //If no name is set, then we can't upload
-	    if(!trim($attachment['name'])) continue;
-
-		$upload = JFile::makeSafe(uniqid(time())).'.'.JFile::getExt($attachment['name']);
-
-		JFile::upload($attachment['tmp_name'], $destination.$upload);
-		KFactory::tmp('site::com.adverts.model.advertisement')
-			->id($data->id)
-			->getItem()
-			->setData(array(
-				//'post' => $data->id, 
-				//'file' => $upload, 
-				'file_url' => $attachment['name'],
-				//'joomla_user_id' => $me->id
-			))
-			->save();
-			
-		print_R($attachment);
-		exit;
+		if ($attachment['error'] != 4) {
+		    //If no name is set, then we can't upload
+		    if (!trim($attachment['name'])) {
+	
+				$upload = JFile::makeSafe(uniqid(time())).'.'.JFile::getExt($attachment['name']);
 		
+				JFile::upload($attachment['tmp_name'], $destination.$upload);
+				
+				if ($data->alt_file_check == true) {
+					KFactory::tmp('site::com.adverts.model.advertisement')
+						->id($data->id)
+						->getItem()
+						->setData(array(
+							'alternative_file' => $upload,
+							'alternative_file_type' => $attachment['type']
+						))
+						->save();
+				} else {
+				
+					KFactory::tmp('site::com.adverts.model.advertisement')
+						->id($data->id)
+						->getItem()
+						->setData(array(
+							'primary_file' => $upload,
+							'primary_file_type' => $attachment['type']
+						))
+						->save();
+				}
+				
+				//Makes sure the page don't scroll after redirect when there are errors
+				if($errors) $this->_redirect_hash = false;
+				
+				foreach ($errors as $error)
+				{
+					JError::raiseWarning(21, sprintf(JText::_("%s couldn't upload because %s"), $error['name'], lcfirst($error['error'])));
+				}
 		
-		//Makes sure the page don't scroll after redirect when there are errors
-		if($errors) $this->_redirect_hash = false;
+				$item = KFactory::tmp('site::com.adverts.model.advertisement')
+						->id(KRequest::get('post.file_url', 'int'))
+						->getItem();
 		
-		foreach ($errors as $error)
-		{
-			JError::raiseWarning(21, sprintf(JText::_("%s couldn't upload because %s"), $error['name'], lcfirst($error['error'])));
+				if(JFile::exists($destination.$item->file)) JFile::delete($destination.$item->file);
+				$item->delete();
+			}
 		}
-
-		$item = KFactory::tmp('site::com.adverts.model.advertisement')
-				->id(KRequest::get('post.file_url', 'int'))
-				->getItem();
-
-		if(JFile::exists($destination.$item->file)) JFile::delete($destination.$item->file);
-		$item->delete();
 	}
 }

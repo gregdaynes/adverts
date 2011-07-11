@@ -4,12 +4,58 @@
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>
 <?= @helper('behavior.modal') ?>
+<?= @helper('behavior.mootools') ?>
 <?php JHTML::_('behavior.calendar'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <script src="media://com_adverts/js/advert.js" />
+<script src="media://com_adverts/js/size.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 <style src="media://com_adverts/css/form.css" />
+
+<? if ($advertisement->primary_file && $advertisement->primary_file_type == 'application/x-shockwave-flash') : ?>
+	<script>
+		window.addEvent('domready', function() {
+			var adPreview = $(document).getElement('[class=advertisement_preview]')
+			
+			var swiffContainer = new Element('div');
+			var adSwiff = new Swiff('/media/com_adverts/attachments/<?= @escape($advertisement->primary_file); ?>', {
+				container: swiffContainer,
+				width: 300,
+				height: 250
+			});
+			
+			adPreview.adopt(swiffContainer);
+			
+			<? if ($advertisement->alternative_file) : ?>
+			
+			var altImage = new Element('img', {
+				'src': '/media/com_adverts/attachments/<?= @escape($advertisement->alternative_file); ?>',
+				'class': 'hidden'
+			});
+			
+			adPreview.adopt(altImage);
+			
+			var altButton = new Element('a', {
+				'href': '#',
+				'html': '<?= @text('Load alternate preview'); ?>',
+				'styles': {
+					'display': 'block'
+				},
+				'events' : {
+					'click' : function() {
+						swiffContainer.toggleClass('hidden', true);
+						altImage.toggleClass('hidden', true);
+					}
+				}
+			});
+						
+			adPreview.adopt(altButton);
+			
+			<? endif; ?>
+		});
+	</script>
+<? endif; ?>
 
 <form action="<?= @route('id='.$advertisement->id) ?>" method="post" class="-koowa-form" id="advertisement-form" enctype="multipart/form-data">
 	
@@ -74,6 +120,41 @@
 									'value'		=> 'id',
 									'text'		=> 'name'
 								)); ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" class="key">
+							<label for="size">
+								<?= @text('Size'); ?>
+							</label>
+						</td>
+						<td>
+							 <?= @helper('admin::com.adverts.template.helper.listbox.size',
+							 		array(
+							 			'name' => 'size',
+							 			'selected' => $advertisement->size
+							 		)) ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" class="key">
+							<label for="width">
+								<?= @text('Dimensions'); ?>
+							</label>
+						</td>
+						<td>
+							<label for="width">
+								<?= @text('Width'); ?>
+							</label>
+							
+							<input class="inputbox" type="text" name="width" id="width" size="3" maxlength="11" value="<?= @escape($advertisement->width) ?>" title="<?= @text('wdth') ?>" /> <?= @text('px'); ?>
+
+							<label for="height">
+								<?= @text('Height'); ?>
+							</label>
+							
+							<input class="inputbox" type="text" name="height" id="height" size="3" maxlength="11" value="<?= @escape($advertisement->height) ?>" title="<?= @text('height') ?>" /> <?= @text('px'); ?>
+							
 						</td>
 					</tr>
 				</tbody>
@@ -151,6 +232,23 @@
 			<table class="admintable" width="100%">
 				<tbody>
 					
+					<? if ($advertisement->primary_file) : ?>
+					<tr>
+						<td valgin="top" class="key">
+							<label>
+								<?= @text('Preview'); ?>
+							</label>
+						</td>
+						<td>
+							<div class="advertisement_preview">								
+								<? if ($advertisement->primary_file && $advertisement->primary_file_type !== 'application/x-shockwave-flash') : ?>
+									<img src="/media/com_adverts/attachments/<?= @escape($advertisement->primary_file); ?>" />
+								<? endif; ?>
+							</div>
+						</td>
+					</tr>
+					<? endif; ?>
+					
 					<tr>
 						<td valign="top" class="key file_upload">
 							<label for="file_url">
@@ -158,7 +256,14 @@
 							</label>
 						</td>
 						<td>
-							<?= @escape($advertisement->file_url.' - '); ?><input type="file" name="file_url" id="file_url" />					
+							<input type="file" name="file_upload" id="file_upload" />
+							
+							<? if ($advertisement->primary_file && $advertisement->primary_file_type == 'application/x-shockwave-flash') : ?>
+								<input type="checkbox" name="alt_file_check" checked="checked" />
+								<label for="alt_file_check">
+									<?= @text('Upload as alternate file?'); ?>
+								</label>
+							<? endif; ?>
 						</td>
 					</tr>
 					
