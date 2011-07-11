@@ -24,9 +24,9 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 		$destination	= JPATH_ROOT.'/media/'.$identifier->type.'_'.$identifier->package.'/attachments/';
 		$attachment		= KRequest::get('files.file_upload', 'raw');
 		
-		if ($attachment['error'] != 4) {
-		    //If no name is set, then we can't upload
-		    if (!trim($attachment['name'])) {
+		if ($attachment['error'] == 0) {
+		    //If no name is set, then we can't upload		    
+		    if (trim($attachment['name'])) {
 	
 				$upload = JFile::makeSafe(uniqid(time())).'.'.JFile::getExt($attachment['name']);
 		
