@@ -35,3 +35,11 @@ label[for="url"] input#url {
 	display: none;
 	height: 0;
 }
+
+.advertisement_preview {
+	width: 100%;
+}
+
+.advertisement_preview img {
+	max-width: 100%;
+}
