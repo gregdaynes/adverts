@@ -1,0 +1,258 @@
+function processBanner( $banner, $params )
+	{  	
+		$this->newImpression( $banner->id, $params->get('location','unknown' ) );
+		
+		// get zone stuff
+		$dims = $this->getZoneDimensions( $params->get('zone') );
+		
+		$location = $params->get('location', 'unknown');
+		
+		$link = 'index.php?option=com_jbanners&controller=banner&task=setclick&cid[]='.$banner->id.'&location='.$location;
+		$baseUrl = JURI::base();
+		
+		$html = '';	
+		if ( trim($banner->custom_banner_code) )
+		{
+			// use custom banner code
+			$html = str_replace( '{LINK}', $link, $banner->custom_banner_code );
+		}
+		else if ( $this->isImage( $banner->fileurl ) )
+		{
+			// image banner
+			$image 	= '<img src="'.$baseUrl.'images/jbanners/'.$banner->fileurl.'" alt="'.$banner->alt_text.'" />';
+			if ($banner->target)
+			{
+				switch ( $banner->target )
+				{
+					// cases are slightly different
+					case '_blank':
+						// open in a new window
+						$a = '<a href="'. $link .'" target="_blank">';
+						break;
+
+					case '_popup':
+						// open in a popup window
+						$a = "<a href=\"javascript:void window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">";
+						break;
+					
+					
+					case '_parent':
+					default:
+						// open in parent window
+						$a = '<a href="'. $link .'">';
+						break;
+				}
+
+				$html = $a . $image . '</a>';
+			}
+			else
+			{
+				$html = $image;
+			}
+		}
+		else if ( $model->isFlash( $banner->fileurl ) )
+		{
+			$document =& JFactory::getDocument();
+
+			$elements = $baseUrl.DS.'modules'.DS.'mod_jbanners'.DS.'elements';
+			
+			$document->addScript( $elements.DS.'swfobject.js' );
+			
+			$uniqueId = md5(uniqid(rand(), true));
+			$uniqueId = substr($uniqueId, 0, 10);
+			
+			$js = 'var flashvars = {}; '
+			. ' flashvars.clickTAG = escape("'.$baseUrl.$link.'"); '
+			. ' swfobject.embedSWF("'.$baseUrl.'images/jbanners/'.$banner->fileurl.'", "'.$uniqueId.'", "'.$dims['width'].'", "'.$dims['height'].'", "7.0.0", false, flashvars); '
+			;
+			
+			$document->addScriptDeclaration( $js );
+			
+			if ( $model->isImage( $banner->altfileurl ) ) {
+				$image 	= '<img src="'.$baseUrl.'images/jbanners/'.$banner->altfileurl.'" alt="'.$banner->alt_text.'" />';
+				if ($banner->target)
+				{
+					switch ( $banner->target )
+					{
+						// cases are slightly different
+						case '_blank':
+							// open in a new window
+							$a = '<a href="'. $link .'" target="_blank">';
+							break;
+	
+						case '_popup':
+							// open in a popup window
+							$a = "<a href=\"javascript:void window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">";
+							break;
+						
+						
+						case '_parent':
+						default:
+							// open in parent window
+							$a = '<a href="'. $link .'">';
+							break;
+					}
+					$altContent = $a . $image . '</a>';
+				}
+				$altConent = $image;
+			}
+			else
+			{
+				$altContent = '<h1>Alternative content</h1>
+						       <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>';
+			}
+				
+			$html = '<div id="'.$uniqueId.'">'.$altContent.'</div>';
+		}
+		
+		return $html;
+	}
+	
+	function newImpression( $id = null, $location = null )
+	{
+		if ($id)
+		{
+			$params =& JComponentHelper::getParams( 'com_jbanners' );
+			$db =& JFactory::getDBO();
+			
+			$visitorIP = $_SERVER['REMOTE_ADDR'];
+			$blackIPs = explode( ',', $params->get('blacklistips') );
+			if ( !in_array( $visitorIP, $blackIPs )) {
+				
+				$sql = 'SELECT campaignid '
+				. ' FROM ' . $db->nameQuote( '#__jbanners_banners' )
+				. ' WHERE id = ' . $id
+				;
+				$db->setQuery( $sql );
+				
+				$campaignid = $db->loadResult();
+				if (!$location)
+				{
+					$location = 'Unknown';
+				}
+				$datetime = date( 'Y-m-d H:i:s' );
+				$ip = $_SERVER['REMOTE_ADDR'];
+	
+				$sql = 'INSERT INTO ' . $db->nameQuote( '#__jbanners_impressions' )
+				. ' SET campaignid = ' . (int) $campaignid
+				. ', bannerid = ' . (int) $id
+				. ', location = ' . $db->Quote( $location )
+				. ', datetime = ' . $db->Quote( $datetime )
+				. ', ip = ' . $db->Quote( $ip )
+				;
+				$db->setQuery( $sql );
+				$db->query();
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	function newClick( $id, $location )
+	{
+		$db =& JFactory::getDBO();
+		
+		$sql = 'SELECT campaignid, link '
+		. ' FROM ' . $db->nameQuote( '#__jbanners_banners' )
+		. ' WHERE id = ' . $id
+		;
+		$db->setQuery( $sql );
+			
+		$row = $db->loadAssoc();
+		
+		if (!$location)
+		{
+			$location = 'Unknown';
+		}
+		$datetime = date( 'Y-m-d H:i:s' );
+		$ip = $_SERVER['REMOTE_ADDR'];
+		
+		// double click detection
+		$sql = 'SELECT id '
+		. ' FROM ' . $db->nameQuote( '#__jbanners_clicks' )
+		. ' WHERE bannerid = ' . (int) $id
+		. ' AND location = ' . $db->Quote( $location )
+		. ' AND datetime = ' . $db->Quote( $datetime )
+		. ' AND ip = ' . $db->Quote( $ip )
+		;
+		$db->setQuery( $sql );
+		$duplicate = $db->loadResult();
+		
+		$params =& JComponentHelper::getParams( 'com_jbanners' );
+			
+		$visitorIP = $_SERVER['REMOTE_ADDR'];
+		$blackIPs = explode( ',', $params->get('blacklistips') );
+		if (in_array( $visitorIP, $blackIPs )) { 
+			return $row['link'];
+		} else {
+			if ( !$duplicate )
+			{
+				$sql = 'INSERT INTO ' . $db->nameQuote( '#__jbanners_clicks' )
+				. ' SET campaignid = ' . (int) $row['campaignid']
+				. ', bannerid = ' . (int) $id
+				. ', location = ' . $db->Quote( $location )
+				. ', datetime = ' . $db->Quote( $datetime )
+				. ', ip = ' . $db->Quote( $ip )
+				;
+				$db->setQuery( $sql );
+				$db->query();
+						
+				return $row['link'];
+			}
+		}		
+		
+		return $row['link'];
+	}function isImage( $url )
+	{
+		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i', $url );
+		return $result;
+	}
+	
+	function isFlash( $url )
+	{
+		$result = preg_match( '#\.swf$#i', $url );
+		return $result;
+	}
+	
+	function getZoneDimensions( $zoneid )
+	{
+		$db =& JFactory::getDBO();
+		$sql = 'SELECT width, height '
+		. ' FROM ' . $db->nameQuote( '#__jbanners_zones' )
+		. ' WHERE id = ' . $zoneid
+		;
+		$db->setQuery($sql);
+		return $db->loadAssoc();
+	}
+	
+	function _unpublishBanner( $cid )
+	{
+		$db =& JFactory::getDBO();
+		$sql = 'UPDATE ' . $db->nameQuote( '#__jbanners_banners' )
+		. ' SET published = 0 '
+		. ' WHERE id = ' . $cid
+		;
+		$db->setQuery( $sql );
+		$db->query();
+		
+		// send unpublish report
+		include_once JPATH_SITE.'/components/com_jbanners/assets/email.php';
+		JBannersEmail::sendExpireReport( $cid.'|banners' );
+	}
+	
+	function _unpublishCampaign( $cid )
+	{
+		$db =& JFactory::getDBO();
+		$sql = 'UPDATE ' . $db->nameQuote( '#__jbanners_campaigns' )
+		. ' SET published = 0 '
+		. ' WHERE id = ' . $cid
+		;
+		$db->setQuery( $sql );
+		$db->query();
+		
+		// send unpublish report
+		include_once JPATH_SITE.'/components/com_jbanners/assets/email.php';
+		JBannersEmail::sendUnpublishReport( $cid.'|campaigns' );
+	}

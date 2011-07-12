@@ -17,7 +17,6 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
             ->insert('tmpl',	'string')
             ->insert('repeatAdvertisement',	'int')
             ->insert('repeatCampaign',	'int')
-            
             ;
     }
     
@@ -31,6 +30,14 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
     	{
         	$query
         		->select('GROUP_CONCAT(az.zid) AS zones');
+        }
+        
+        if (is_numeric($state->pull))
+        {
+        	$query
+        		->select('campaign.impressions AS campaign_impressions')
+        		->select('campaign.clicks AS campaign_clicks')
+        		->select('campaign.weight AS campaign_weight');
         }
     }
     
@@ -52,7 +59,8 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
     	parent::_buildQueryJoins($query);
 
         $query
-        	->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id');
+        	->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id')
+        	->join('LEFT', 'adverts_campaigns AS campaign', 'tbl.campaign_id = campaign.adverts_campaign_id');
     }
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -77,14 +85,14 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
         if (is_numeric($state->pull)) {
 	        // repeat ad
 	        if (is_numeric($state->repeatAdvertisement)) {
-	        	if (isset($previousBanners)) {
+	        	if (isset($previous_advertisement)) {
 	        		//$previousBanners = '(b.id != ' . implode( ' AND b.id != ', $previousBanners ) . ')';
 	        	}
 	        }
 	        
 	        // repeat campaign
 	        if (is_numeric($state->repeatCampaign)) {
-	        	if (isset($previousCampaigns)) {
+	        	if (isset($previous_campaigns)) {
 	        		//$previousCampaigns = '(b.id != ' . implode( ' AND b.id != ', $previousBanners ) . ')';
 	        	}
 	        	
