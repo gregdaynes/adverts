@@ -23,13 +23,14 @@
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		
 		<param name="location" type="text" default="" label="Location" description="" />
-		
+		-->
 		<param name="layout" type="filelist" label="Layout" 
 			description="Style with which to display the module" 
 			directory="/modules/mod_adverts/tmpl" 
 			default="Zone" hide_default="1" hide_none="1" 
 			stripext="1" filter="\.php$" exclude="^_" />
 		
+		<!--
 		<param name="repeatbanner" type="radio" default="0" label="Repeat Banners" description="Allow the same banner to be show on the same page">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

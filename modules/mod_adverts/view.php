@@ -4,13 +4,15 @@ defined('KOOWA') or die('Restricted access');
 
 class ModAdvertsView extends ModDefaultView
 {
-	protected function _initialize(KConfig $config)
-	{
-		parent::_initialize($config);
-	}
 	public function display()
-	{
-		
-		return parent::display();
+	{	
+		// set template from param
+		$this->_layout->name = $this->params->get('layout');
+	
+		$this->output = $this->getTemplate()
+		        ->loadIdentifier($this->_layout, $this->_data)
+		        ->render();
+		        
+		return $this->output;
 	}
 }
