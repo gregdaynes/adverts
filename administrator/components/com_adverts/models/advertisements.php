@@ -12,8 +12,12 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
             ->insert('enabled', 'int')
             ->insert('client',	'int')
             ->insert('zone',	'int')
+            ->insert('pull',	'int') // for pulling banner
             ->insert('view',	'string')
             ->insert('tmpl',	'string')
+            ->insert('repeatAdvertisement',	'int')
+            ->insert('repeatCampaign',	'int')
+            
             ;
     }
     
@@ -46,20 +50,9 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
     protected function _buildQueryJoins(KDatabaseQuery $query)
     {
     	parent::_buildQueryJoins($query);
-    	
-    	$state = $this->_state;
-    	
-    	if ($state->view == 'advertisements')
-    	{
-        	$query
-        		->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id');
-        }
-        
-        if ($state->view == 'campaigns' && is_numeric($state->zone))
-        {
-    	    $query
-    	    	->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id');
-    	}
+
+        $query
+        	->join('LEFT', 'adverts_advertisement_zones AS az', 'az.aid = tbl.adverts_advertisement_id');
     }
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -79,5 +72,27 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
         if (is_numeric($state->zone)) {
         	$query->where('az.zid', '=', $state->zone);
         }
+        
+        // pulling ad for render
+        if (is_numeric($state->pull)) {
+	        // repeat ad
+	        if (is_numeric($state->repeatAdvertisement)) {
+	        	if (isset($previousBanners)) {
+	        		//$previousBanners = '(b.id != ' . implode( ' AND b.id != ', $previousBanners ) . ')';
+	        	}
+	        }
+	        
+	        // repeat campaign
+	        if (is_numeric($state->repeatCampaign)) {
+	        	if (isset($previousCampaigns)) {
+	        		//$previousCampaigns = '(b.id != ' . implode( ' AND b.id != ', $previousBanners ) . ')';
+	        	}
+	        	
+	        }
+	        
+	        // publish up
+	        
+	        // publish down
+	    }
     }
 }

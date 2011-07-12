@@ -1,1 +1,1 @@
-hello, zone!
+<?= ModAdvertsHelper::getAdvert( $params ); ?>
