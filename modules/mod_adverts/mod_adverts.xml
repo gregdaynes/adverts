@@ -18,33 +18,31 @@
 		<filename>tmpl/zone.php</filename>
 	</files>
 	
-	<params>
-		<!--
+	<params addpath="/administrator/components/com_adverts/elements">
+	
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+				
+		<param name="location" type="text" default="" label="Location" description="" />		
 		
-		<param name="location" type="text" default="" label="Location" description="" />
-		-->
-		<param name="layout" type="filelist" label="Layout" 
-			description="Style with which to display the module" 
-			directory="/modules/mod_adverts/tmpl" 
-			default="Zone" hide_default="1" hide_none="1" 
-			stripext="1" filter="\.php$" exclude="^_" />
+		<param name="layout" type="list" label="Layout" description="" default="default" >
+			<option value="default">Zone</option>
+		</param>
 		
-		<!--
-		<param name="repeatbanner" type="radio" default="0" label="Repeat Banners" description="Allow the same banner to be show on the same page">
+		<param name="repeatbanner" type="radio" default="0" label="Repeat Banners" description="">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
 		
-		<param name="repeatcampaign" type="radio" default="0" label="Repeat Campaign" description="Allow the same campaign to be show on the same page">
+		<param name="repeatcampaign" type="radio" default="0" label="Repeat Campaign" description="">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
 		
 		<param name="layoutoptions" type="layoutoptions" label="Layout Options" />
 		
-		<param name="client" type="clients" label="Client" description="" />
 		
+		<param name="client" type="clients" label="Client" description="" />
+		<!--
 		<param name="campaign" type="campaigns" label="Campaign" description="" />
 		
 		<param name="zone" type="zones" label="Zone" description="" />
@@ -52,9 +50,9 @@
 		<param name="size" type="sizes" label="Size" description="" />
 		
 		<param name="banner" type="banners" label="Banner" description="" />
-		
+		-->
 		<param name="bannercount" type="text" default="4" label="Amount of Banners" description="" />
-		
+	
 		<param name="customcss" type="list" default="0" label="Custom CSS" description="" >
 			<option value="0">No</option>
 			<option value="1">Yes</option>
@@ -118,6 +116,5 @@
 			<option value="0">Image/Flash</option>
 			<option value="1">Raw Data</option>
 		</param>
-		-->
 	</params>
 </install>

@@ -7,7 +7,6 @@ class ModAdvertsHelper
 	var $_advertisements;
 	var $_advertisement_id;
 	var $_advertisement;
-	
 	public function getAdvert()
 	{
 		// get advertisement list
