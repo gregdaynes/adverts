@@ -105,13 +105,13 @@ window.addEvent('domready', function() {
 			$$('.panel.advertisement').addClass('hidden');
 		}
 		
-		if (this.getProperty('value') == 1) {
+		if (this.getProperty('value') == 'image' || this.getProperty('value') == 'flash') {
 			$$('.file_upload').getParent('tr').removeClass('hidden');
 			$$('.panel.advertisement').removeClass('hidden');
 			$$('.custom_banner_code').getParent('tr').addClass('hidden');
 		}
 		
-		if (this.getProperty('value') == 2) {
+		if (this.getProperty('value') == 'html') {
 			$$('.file_upload').getParent('tr').addClass('hidden');
 			$$('.panel.advertisement').removeClass('hidden');
 			$$('.custom_banner_code').getParent('tr').removeClass('hidden');
@@ -122,11 +122,11 @@ window.addEvent('domready', function() {
 		$$('.panel.advertisement').addClass('hidden');
 	}
 	
-	if (typeSelect.getProperty('value') == '1') {
+	if (typeSelect.getProperty('value') == 'image' || typeSelect.getProperty('value') == 'flash') {
 		$$('.custom_banner_code').getParent('tr').addClass('hidden');
 	}
 	
-	if (typeSelect.getProperty('value') == '2') {
+	if (typeSelect.getProperty('value') == 'html') {
 		$$('.file_upload').getParent('tr').addClass('hidden');
 	}
 });

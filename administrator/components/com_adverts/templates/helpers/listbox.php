@@ -338,8 +338,9 @@ class ComAdvertsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 			$options[] =  $this->option(array('text' => JText::_($config->prompt)));
 		}
 		
-		$options[] = $this->option(array('text' => 'Image/Flash', 'value' => '1'));
-		$options[] = $this->option(array('text' => 'HTML', 'value' => '2'));
+		$options[] = $this->option(array('text' => 'Image', 'value' => 'image'));
+		$options[] = $this->option(array('text' => 'Flash', 'value' => 'flash'));
+		$options[] = $this->option(array('text' => 'HTML', 'value' => 'html'));
 				
 		//Add the options to the config object
 		$config->options = $options;

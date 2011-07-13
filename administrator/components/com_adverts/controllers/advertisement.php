@@ -32,13 +32,17 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 		
 				JFile::upload($attachment['tmp_name'], $destination.$upload);
 				
-				if ($data->alt_file_check == true) {
+				$type = 'image';
+				if ($attachment['type'] == 'application/x-shockwave-flash') {
+					$type = 'flash';
+				}
+				
+				if ($data->alt_file_check == true && $type == 'image') {
 					KFactory::tmp('site::com.adverts.model.advertisement')
 						->id($data->id)
 						->getItem()
 						->setData(array(
-							'alternative_file' => $upload,
-							'alternative_file_type' => $attachment['type']
+							'alternative_file' => $upload
 						))
 						->save();
 				} else {
@@ -48,7 +52,7 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 						->getItem()
 						->setData(array(
 							'primary_file' => $upload,
-							'primary_file_type' => $attachment['type']
+							'type'	=> $type
 						))
 						->save();
 				}
@@ -65,8 +69,8 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 						->id(KRequest::get('post.file_url', 'int'))
 						->getItem();
 		
-				if(JFile::exists($destination.$item->file)) JFile::delete($destination.$item->file);
-				$item->delete();
+				//if(JFile::exists($destination.$item->file)) JFile::delete($destination.$item->file);
+				//$item->delete();
 			}
 		}
 	}

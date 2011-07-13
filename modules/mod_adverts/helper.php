@@ -8,7 +8,7 @@ class ModAdvertsHelper
 	var $_advertisement_id;
 	var $_advertisement;
 	
-	public function getAdvert($params)
+	public function getAdvert()
 	{
 		// get advertisement list
 		$this->_advertisements = KFactory::tmp('admin::com.adverts.model.advertisements')
@@ -29,8 +29,10 @@ class ModAdvertsHelper
 		// get advertisement data
 		$this->_advertisement = modAdvertsHelper::getAdvertisementData();
 		
-		
-		return $this->_advertisement;
+		// process advertisement for rendering
+		$advertisement = modAdvertsHelper::processAdvertisement();
+				
+		return $advertisement;
 	}
 	
 	public function getAdvertisementData()
@@ -45,8 +47,6 @@ class ModAdvertsHelper
 		
 		// add to previous selected campaigns
 		$previous_campaigns[] = $advertisement->campaign_id;
-		
-		
 		
 		return $advertisement;
 	}
@@ -153,8 +153,59 @@ class ModAdvertsHelper
 			$pick = rand(0, $size -1);
 		} else if ($size == 0) {
 			return null;
+		} else {
+			$pick = 0;
 		}
 		
 		return $advertisements[$pick];
+	}
+	
+	public function processAdvertisement()
+	{
+		// count impression
+		modAdvertsHelper::newImpression($this->_advertisement_id, '');
+		
+		$location = '';
+		
+		$this->_advertisement->click_url = 'index.php?option=com_adverts&controller=advertisement&task=setclick&aid[]='.$this->_advertisement->id.'&location='.$location;
+		
+		if ($this->_advertisement->type == 'html') {
+			$this->_advertisement->custom_banner_code = str_replace( '{LINK}', $link, $this->_advertisement->custom_banner_code );
+		}
+		
+		return $this->_advertisement;
+	}
+	
+	public function newImpression($id = null, $location = null)
+	{
+		if ($id)
+		{
+			$visitor_ip = $_SERVER['REMOTE_ADDR'];
+			// add blacklist filter
+
+			KFactory::tmp('admin::com.adverts.database.row.stats_impressions')
+				->setData(array(
+					'campaign_id' => $this->_advertisement->campaign_id,
+					'advertisement_id' => $this->_advertisement->id,
+					'location'	=> date( 'Y-m-d H:i:s' ),
+					'datetime'	=> '',
+					'ip'		=> $visitor_ip
+				))
+				->save();
+		}
+		
+		return false;
+	}
+	
+	function isImage()
+	{
+		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i', $this->_advertisement->primary_file);
+		return (bool) $result;
+	}
+	
+	function isFlash()
+	{
+		$result = preg_match( '#\.swf$#i', $this->_advertisement->primary_file);
+		return (bool) $result;
 	}
 }

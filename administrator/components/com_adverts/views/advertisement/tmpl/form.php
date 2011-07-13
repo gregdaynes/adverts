@@ -13,7 +13,7 @@
 <style src="media://lib_koowa/css/koowa.css" />
 <style src="media://com_adverts/css/form.css" />
 
-<? if ($advertisement->primary_file && $advertisement->primary_file_type == 'application/x-shockwave-flash') : ?>
+<? if ($advertisement->primary_file && $advertisement->type == 'flash') : ?>
 	<script>
 		window.addEvent('domready', function() {
 			var adPreview = $(document).getElement('[class=advertisement_preview]')
@@ -241,7 +241,7 @@
 						</td>
 						<td>
 							<div class="advertisement_preview">								
-								<? if ($advertisement->primary_file && $advertisement->primary_file_type !== 'application/x-shockwave-flash') : ?>
+								<? if ($advertisement->primary_file && $advertisement->type !== 'flash') : ?>
 									<img src="/media/com_adverts/attachments/<?= @escape($advertisement->primary_file); ?>" />
 								<? endif; ?>
 							</div>
@@ -258,7 +258,7 @@
 						<td>
 							<input type="file" name="file_upload" id="file_upload" />
 							
-							<? if ($advertisement->primary_file && $advertisement->primary_file_type == 'application/x-shockwave-flash') : ?>
+							<? if ($advertisement->primary_file && $advertisement->type == 'flash') : ?>
 								<input type="checkbox" name="alt_file_check" checked="checked" />
 								<label for="alt_file_check">
 									<?= @text('Upload as alternate file?'); ?>

@@ -1,1 +1,0 @@
-<?= ModAdvertsHelper::getAdvert( $params ); ?>

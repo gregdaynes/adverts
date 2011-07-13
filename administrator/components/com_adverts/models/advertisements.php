@@ -46,12 +46,7 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
     	parent::_buildQueryFrom($query);
     	
     	$state = $this->_state;
-    	
-    	if ($state->view == 'advertisement' && is_numeric($state->zone) == false)
-    	{
-    		$query
-    			->from('adverts_advertisement_zones AS az');
-    	}
+  
     }
     
     protected function _buildQueryJoins(KDatabaseQuery $query)
