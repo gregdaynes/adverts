@@ -33,6 +33,13 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
         		;
         }
         
+        if ($state->view == 'advertisements')
+        {
+        	$query
+        		->select('campaign.name AS campaign_name')
+        		;
+        }
+        
         if (is_numeric($state->pull))
         {
         	$query

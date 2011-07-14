@@ -81,7 +81,7 @@
 					</span>
 				</td>
 				<td align="center">
-					<?= @escape($advertisement->campaign_id); ?>
+					<?= @escape($advertisement->campaign_name); ?>
 				</td>
 				<td align="center">
 					<?= @escape($advertisement->link); ?>
@@ -104,7 +104,9 @@
 					} ?>
 				</td>
 				<td align="center">
-					<? //@TODO add impression fraction 
+					<? 
+					echo @escape($stats[$advertisement->id]->impressions).@text(' / ');
+					
 					if ($advertisement->impressions <= 0) {
 						echo @text('Unlimited');
 					} else {
@@ -112,7 +114,9 @@
 					} ?>
 				</td>
 				<td align="center">
-					<? // @TODO add click through fraction
+					<?
+					echo @escape($stats[$advertisement->id]->clicks).@text(' / ');
+					
 					if ($advertisement->clicks <= 0) {
 						echo @text('Unlimited');
 					} else {
