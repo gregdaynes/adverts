@@ -1,6 +1,5 @@
 <?php /** $Id **/ ?>
-<?php // no direct access
-defined('KOOWA') or die('restricted access');
+<?php defined('KOOWA') or die('restricted access');
 
 class ComAdvertsViewAdvertisementHtml extends ComDefaultViewHtml
 {

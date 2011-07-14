@@ -1,6 +1,4 @@
-<?php /** $Id$ **/ ?>
-<?php // no direct access
-defined('KOOWA') or die( 'Restricted access' ); ?>
+<?php defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="sidebar" class="-koowa-box-scroll">
 	<h3><?= @text('Sites')?></h3>

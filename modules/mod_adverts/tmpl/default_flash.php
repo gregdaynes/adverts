@@ -1,6 +1,4 @@
-<?php /** $Id$ **/ ?>
-<?php // no direct access
-defined('KOOWA') or die('Restricted access'); ?>
+<?php defined('KOOWA') or die('Restricted access'); ?>
 
 <script>
 	window.addEvent('domready', function() {

@@ -1,6 +1,5 @@
 <?php /** $Id: default_sidebar.php 795 2011-06-21 20:32:00Z media $ */ ?>
-<?php // no direct access
-defined('KOOWA') or die( 'Restricted access' ); ?>
+<?php defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="sidebar" class="-koowa-box-scroll">
 	<h3><?= @text('Zones')?></h3>

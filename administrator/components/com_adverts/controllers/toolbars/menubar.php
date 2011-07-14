@@ -1,6 +1,4 @@
-<?php /** $Id$ **/ ?>
-<?php // no direct access
-defined('KOOWA') or die('Restricted access');
+<?php defined('KOOWA') or die('Restricted access');
 
 class ComAdvertsControllerToolbarMenubar extends ComDefaultControllerToolbarMenubar
 {
@@ -31,6 +29,11 @@ class ComAdvertsControllerToolbarMenubar extends ComDefaultControllerToolbarMenu
         $this->addCommand('Advertisements', array(
             'href'   => JRoute::_('index.php?option=com_adverts&view=advertisements'),
             'active' => ($name == 'advertisement')
+        ));
+        
+        $this->addCommand('Statistics', array(
+            'href'   => JRoute::_('index.php?option=com_adverts&view=statistics'),
+            'active' => ($name == 'statistics')
         ));
                 
         return parent::getCommands();

@@ -1,6 +1,5 @@
 <? /** $Id$ **/ ?>
-<?php // no direct access
-defined('KOOWA') or die('Restricted access');
+<?php defined('KOOWA') or die('Restricted access');
 
 class ModAdvertsView extends ModDefaultView
 {
