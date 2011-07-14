@@ -50,18 +50,16 @@ class ModAdvertsHelper
 		// check if we are filtering repeat advertisements
 		if ($this->params->get('repeatadvertisement', true)) {
 			// add to previous selected advertisements
-			if ($_SESSION['previous_advertisement']) {
-				$_SESSION['previous_advertisment'][] = $advertisement->id;
-			}
 			
+				$_SESSION['previous_advertisment'][] = $advertisement->id;
+						
 		}
 		
 		// check if we are filtering repeat campaigns
 		if ($this->params->get('repeatcampaign', true)) {
 			// add to previous selected advertisements
-			if ($_SESSION['previous_campaign']) {
 				$_SESSION['previous_campaign'][] = $advertisement->campaign_id;
-			}
+			
 		}
 		
 		// return data
