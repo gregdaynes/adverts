@@ -12,11 +12,11 @@ class JElementBanners extends JElement
 		$where = '';
 		if ($value)
 		{
-			$where = ' WHERE id = ' . $value;
+			$where = ' WHERE adverts_advertisement_id = ' . $value;
 		}
 		
-		$sql = 'SELECT id, name '
-		. ' FROM ' . $db->nameQuote( '#__jbanners_banners' )
+		$sql = 'SELECT adverts_advertisement_id AS id, name '
+		. ' FROM ' . $db->nameQuote( '#__adverts_advertisements' )
 		. $where
 		;
 		$db->setQuery($sql);

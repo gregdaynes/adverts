@@ -9,8 +9,8 @@ class JElementZones extends JElement
 	{		
 		$db =& JFactory::getDBO();
 		
-		$sql = 'SELECT id, name '
-		. ' FROM ' . $db->nameQuote( '#__jbanners_zones' )
+		$sql = 'SELECT adverts_zone_id AS id, name '
+		. ' FROM ' . $db->nameQuote( '#__adverts_zones' )
 		;
 		$db->setQuery($sql);
 			

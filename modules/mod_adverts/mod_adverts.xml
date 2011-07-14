@@ -28,7 +28,7 @@
 			<option value="default">Zone</option>
 		</param>
 		
-		<param name="repeatbanner" type="radio" default="0" label="Repeat Banners" description="">
+		<param name="repeatadvertisement" type="radio" default="0" label="Repeat Banners" description="">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
@@ -40,23 +40,16 @@
 		
 		<param name="layoutoptions" type="layoutoptions" label="Layout Options" />
 		
-		
 		<param name="client" type="clients" label="Client" description="" />
-		<!--
+		
 		<param name="campaign" type="campaigns" label="Campaign" description="" />
 		
 		<param name="zone" type="zones" label="Zone" description="" />
 		
-		<param name="size" type="sizes" label="Size" description="" />
-		
 		<param name="banner" type="banners" label="Banner" description="" />
-		-->
+		
+		<!-- Dependent on a specific template hide with js
 		<param name="bannercount" type="text" default="4" label="Amount of Banners" description="" />
-	
-		<param name="customcss" type="list" default="0" label="Custom CSS" description="" >
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 		
 		<param name="tabs" type="list" default="0" label="Tabs" description="" >
 			<option value="0">No</option>
@@ -105,6 +98,7 @@
 			<option value="Elastic.easeOut">Elastic.easeOut</option>
 			<option value="Elastic.easeInOut">Elastic.easeInOut</option>
 		</param>
+		-->
 	</params>
 	
 	<params group="advanced">
@@ -112,9 +106,12 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		
+		<!-- 
 		<param name="type" type="radio" default="1" label="Type" description="" >
 			<option value="0">Image/Flash</option>
 			<option value="1">Raw Data</option>
 		</param>
+		-->
 	</params>
 </install>

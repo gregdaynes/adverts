@@ -205,6 +205,8 @@
 								<?= @text('Unlimited') ?>
 								<input type="checkbox" name="impressions_unlimited" />
 							</label>
+							
+							<em><?= @text('Impressions to date').': '.@escape($tot_impressions); ?></em>
 						</td>
 					</tr>
 					
@@ -221,6 +223,8 @@
 								<?= @text('Unlimited') ?>
 								<input type="checkbox" name="clicks_unlimited" />
 							</label>
+							
+							<em><?= @text('Click throughs to date').': '.@escape($tot_clickthroughs); ?></em>
 						</td>
 					</tr>
 				</tbody>

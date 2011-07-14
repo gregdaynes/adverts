@@ -13,7 +13,7 @@ class ComAdvertsModelStats_Impressions extends ComDefaultModelDefault
             ->insert('campaign_id',	'int')
             ;
     }
-        
+    
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
         parent::_buildQueryWhere($query);

@@ -29,6 +29,9 @@
 					<?= @helper('grid.sort', array('column' => 'publish_up', 'title' => 'Start Date')); ?>
 				</th>
 				<th>
+					<?= @helper('grid.sort', array('column' => 'publish_down', 'title' => 'Stop Date')); ?>
+				</th>
+				<th>
 					<?= @helper('grid.sort', array('column' => 'impressions', 'title' => 'Impressions')); ?>
 				</th>
 				<th>
@@ -48,7 +51,8 @@
 			    <td></td>
 			    <td></td>
 			    <td></td>
-			    <th><?= @helper('grid.sort', array('column' => 'publish_down', 'title' => 'Stop Date')); ?></th>
+			    <td></td>
+			    <td></td>
 			    <td></td>
 			    <td></td>
 			    <td></td>
@@ -86,15 +90,34 @@
 					<?= @helper('grid.enable', array('row' => $advertisement)) ?>
 				</td>
 				<td align="center">
-					<?= @escape($advertisement->publish_up); ?>
-					<br />
-					<?= @escape($advertisement->publish_down); ?>
+				 	<? if ($advertisement->publish_up == '0000-00-00 00:00:00') {
+				 		echo @text('Not set');
+				 	} else {
+						echo @helper('date.format', array('date' => $advertisement->publish_up));
+					} ?>
+				</td>
+				<td align="centre">
+					<? if ($advertisement->publish_down == '0000-00-00 00:00:00') {
+							echo @text('Never');
+						} else {
+						echo @helper('date.format', array('date' => $advertisement->publish_down));
+					} ?>
 				</td>
 				<td align="center">
-					<?= @escape($advertisement->impressions); ?>
+					<? //@TODO add impression fraction 
+					if ($advertisement->impressions <= 0) {
+						echo @text('Unlimited');
+					} else {
+						echo @escape($advertisement->impressions);
+					} ?>
 				</td>
 				<td align="center">
-					<?= @escape($advertisement->clicks); ?>
+					<? // @TODO add click through fraction
+					if ($advertisement->clicks <= 0) {
+						echo @text('Unlimited');
+					} else {
+						echo @escape($advertisement->clicks);
+					} ?>
 				</td>
 				<td align="center">
 					<?= @escape($advertisement->type); ?>
@@ -104,7 +127,7 @@
 			
 			<? if (!count($advertisements)) : ?>
 				<tr>
-					<td colspan="9" align="center">
+					<td colspan="10" align="center">
 						<?= @text('No Advertisements Found'); ?>
 					</td>
 				</tr>

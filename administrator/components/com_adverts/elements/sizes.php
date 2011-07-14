@@ -10,7 +10,7 @@ class JElementSizes extends JElement
 		$db =& JFactory::getDBO();
 		
 		$sql = 'SELECT size_name, width, height '
-		. ' FROM ' . $db->nameQuote( '#__jbanners_zones' )
+		. ' FROM ' . $db->nameQuote( '#__adverts_zones' )
 		. ' GROUP BY size_name, width, height '
 		;
 		$db->setQuery($sql);
@@ -19,7 +19,7 @@ class JElementSizes extends JElement
 		foreach ($sizes as $size)
 		{
 			$query = 'SELECT id '
-			. ' FROM ' . $db->nameQuote( '#__jbanners_zones' )
+			. ' FROM ' . $db->nameQuote( '#__adverts_zones' )
 			. ' WHERE width = ' . $size->width
 			. ' AND height = ' . $size->height
 			;

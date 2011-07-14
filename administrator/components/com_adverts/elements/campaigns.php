@@ -10,13 +10,12 @@ class JElementCampaigns extends JElement
 		$db =& JFactory::getDBO();
 		
 		$where = '';
-		if ($value)
-		{
-			$where = ' WHERE id = ' . $value;
+		if ($value) {
+			$where = ' WHERE adverts_campaign_id = ' . $value;
 		}
 		
-		$sql = 'SELECT id, name '
-		. ' FROM ' . $db->nameQuote( '#__jbanners_campaigns' )
+		$sql = 'SELECT adverts_campaign_id AS id, name '
+		. ' FROM ' . $db->nameQuote( '#__adverts_campaigns' )
 		. $where
 		;
 		$db->setQuery($sql);

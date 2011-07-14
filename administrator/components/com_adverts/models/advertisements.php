@@ -11,12 +11,12 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
         $this->_state
             ->insert('enabled', 'int')
             ->insert('client',	'int')
+            ->insert('campaign',	'int')
+            ->insert('advertisement',	'int')
             ->insert('zone',	'int')
             ->insert('pull',	'int') // for pulling banner
             ->insert('view',	'string')
             ->insert('tmpl',	'string')
-            ->insert('repeatAdvertisement',	'int')
-            ->insert('repeatCampaign',	'int')
             ;
     }
     
@@ -29,7 +29,8 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
     	if ($state->view == 'advertisement')
     	{
         	$query
-        		->select('GROUP_CONCAT(az.zid) AS zones');
+        		->select('GROUP_CONCAT(az.zid) AS zones')
+        		;
         }
         
         if (is_numeric($state->pull))
@@ -68,34 +69,40 @@ class ComAdvertsModelAdvertisements extends ComDefaultModelDefault
             $query->where('tbl.enabled', '=', $state->enabled);
         }
         
-        if (is_numeric($state->client)) {
+        if (is_numeric($state->client) && $state->client > 0) {
         	$query->where('tbl.client_id', '=', $state->client);
+        } 
+        
+        if (is_numeric($state->campaign) && $state->campaign > 0) {
+        	$query->where('tbl.campaign_id', '=', $state->campaign);
         }
         
-        if (is_numeric($state->zone)) {
+        if (is_numeric($state->zone) && $state->zone > 0) {
         	$query->where('az.zid', '=', $state->zone);
         }
         
+        if (is_numeric($state->advertisement) && $state->advertisement > 0) {
+        	$query->where('tbl.adverts_advertisement_id', '=', $state->advertisement);
+        }
+        
         // pulling ad for render
-        if (is_numeric($state->pull)) {
-	        // repeat ad
-	        if (is_numeric($state->repeatAdvertisement)) {
-	        	if (isset($previous_advertisement)) {
-	        		//$previousBanners = '(b.id != ' . implode( ' AND b.id != ', $previousBanners ) . ')';
-	        	}
+        if (is_numeric($state->pull))
+        {
+	        // repeat advertisement
+	        if (isset($_SESSION['previous_advertisement'])) {
+	        	// @TODO
 	        }
 	        
 	        // repeat campaign
-	        if (is_numeric($state->repeatCampaign)) {
-	        	if (isset($previous_campaigns)) {
-	        		//$previousCampaigns = '(b.id != ' . implode( ' AND b.id != ', $previousBanners ) . ')';
-	        	}
-	        	
+	        if (isset($_SESSION['previous_campaign'])) {
+	        	// @TODO
 	        }
 	        
 	        // publish up
+	        // @TODO
 	        
 	        // publish down
+	    	// @TODO
 	    }
     }
 }
