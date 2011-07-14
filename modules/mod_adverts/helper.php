@@ -183,7 +183,7 @@ class ModAdvertsHelper
 		
 		$location = $this->params->get('location', JText::_('Unknown'));
 
-		$this->_advertisement->click_url = 'view=advertisement&id='.$this->_advertisement->id.'&l='.$location;
+		$this->_advertisement->click_url = 'view=advertisement&id='.$this->_advertisement->id.'&location='.$location;
 		
 		if ($this->_advertisement->type == 'html') {
 			$this->_advertisement->custom_banner_code = str_replace( '{LINK}', $link, $this->_advertisement->custom_banner_code );

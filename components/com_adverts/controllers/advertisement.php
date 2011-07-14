@@ -21,7 +21,7 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 				->setData(array(
 					'campaign_id' => $advertisement->campaign_id,
 					'advertisement_id' => $advertisement->id,
-					'location'	=> KRequest::get('get.l', 'string'),
+					'location'	=> KRequest::get('get.location', 'string'),
 					'datetime'	=> date( 'Y-m-d H:i:s' ),
 					'ip'		=> $visitor_ip
 				))
