@@ -50,16 +50,13 @@ class ModAdvertsHelper
 		// check if we are filtering repeat advertisements
 		if ($this->params->get('repeatadvertisement', true)) {
 			// add to previous selected advertisements
-			
-				$_SESSION['previous_advertisment'][] = $advertisement->id;
-						
+			$_SESSION['previous_advertisment'][] = $advertisement->id;
 		}
 		
 		// check if we are filtering repeat campaigns
 		if ($this->params->get('repeatcampaign', true)) {
 			// add to previous selected advertisements
-				$_SESSION['previous_campaign'][] = $advertisement->campaign_id;
-			
+			$_SESSION['previous_campaign'][] = $advertisement->campaign_id;
 		}
 		
 		// return data
@@ -186,7 +183,7 @@ class ModAdvertsHelper
 		
 		$location = $this->params->get('location', JText::_('Unknown'));
 
-		$this->_advertisement->click_url = 'index.php?option=com_adverts&controller=advertisement&task=setclick&aid[]='.$this->_advertisement->id.'&location='.$location;
+		$this->_advertisement->click_url = 'view=advertisement&id='.$this->_advertisement->id.'&l='.$location;
 		
 		if ($this->_advertisement->type == 'html') {
 			$this->_advertisement->custom_banner_code = str_replace( '{LINK}', $link, $this->_advertisement->custom_banner_code );
