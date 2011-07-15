@@ -44,7 +44,7 @@
 					<?= $sums['ctr'].@text('%'); ?>
 				</td>
 				<td align="center">
-					$sum Revenue @TODO
+					<?= @text('$').$sums['revenue']; ?>
 				</td>
 			</tr>
 		</thead>
@@ -71,51 +71,11 @@
 				</tr>
 				
 				<? foreach($campaigns[$client->id] as $campaign) : ?>
-					<tr>
-						<td></td>
-						<td>
-							<?= @(' ::: ').@escape($campaign->name); ?>
-						</td>
-						<td align="center">
-							<?= @escape($campaign_stats['impressions'][$campaign->id]); ?>
-							<em> <?= @text(' of ').@escape($campaign->impressions); ?></em>
-						</td>
-						<td align="center">
-							<?= @escape($campaign_stats['clicks'][$campaign->id]); ?>
-							<em> <?= @text(' of ').@escape($campaign->clicks); ?></em>
-						</td>
-						<td align="center">
-							<? if ($campaign_stats['clicks'][$campaign->id] != 0 && $campaign_stats['impressions'][$campaign->id] != 0) {
-								echo round($campaign_stats['clicks'][$campaign->id] / $campaign_stats['impressions'][$campaign->id], 3).@text('%');
-							} else { echo @text('-'); } ?>
-						</td>
-						<td align="center">
-							@todo
-						</td>
-					</tr>
+				<?= @template('default_campaign', array('campaign' => $campaign)); ?>
+										
 					<? foreach($advertisements[$campaign->id] as $advertisement) : ?>
-						<tr>
-							<td></td>
-							<td>
-								<?= @(' ::: ::: ').@escape($advertisement->name); ?>
-							</td>
-							<td align="center">
-								<?= @escape($advertisement_stats['impressions'][$advertisement->id]); ?>
-								<em> <?= @text(' of ').@escape($advertisement->impressions); ?>
-							</td>
-							<td align="center">
-								<?= @escape($advertisement_stats['clicks'][$advertisement->id]); ?>
-								<em> <?= @text(' of ').@escape($advertisement->clicks); ?>
-							</td>
-							<td align="center">
-								<? if ($advertisement_stats['clicks'][$advertisement->id] != 0 && $advertisement_stats['impressions'][$advertisement->id] != 0) {
-									echo round($advertisement_stats['clicks'][$advertisement->id] / $advertisement_stats['impressions'][$advertisement->id], 3).@text('%');
-								} else { echo @text('-'); } ?>
-							</td>
-							<td align="center">
-								@todo
-							</td>
-						</tr>
+					<?= @template('default_advertisement', array('advertisement' => $advertisement)); ?>
+					
 					<? endforeach; ?>
 				
 				<? endforeach; ?>

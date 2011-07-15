@@ -10,6 +10,7 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 		$advertisements = array();
 		$advertisement_stats = array();
 		$sums = array();
+		$revenue = array();
 		
 		$clients = KFactory::tmp('admin::com.adverts.model.clients')
 			->getList()
@@ -39,7 +40,10 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 					->set('campaign', $campaign->id)
 					->getList()
 					;
-					
+				
+				$revenue[$campaign->id]['model'] = $campaign->price_model;
+				$revenue[$campaign->id]['rate'] = $campaign->rate;
+				
 				foreach($advertisements[$campaign->id] as $advertisement)
 				{
 					$advertisement_stats['impressions'][$advertisement->id] = KFactory::tmp('admin::com.adverts.model.stats_impressions')
@@ -55,17 +59,60 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 			}
 		}
 		
+		// revenue
+		foreach($revenue as $campaign_id => $campaign)
+		{
+			$rev = 0;
+			
+			// cpm
+			if ($campaign['model'] == 1)
+			{
+				// get impressions
+				$imps = $campaign_stats['impressions'][$campaign_id];
+				
+				// get rate
+				$rate = $campaign['rate'];
+				
+				// (impressions / 1000) * rate
+				$rev = ($imps / 1000) * $rate;
+			}
+			
+			// cpc
+			if ($campaign['model'] == 2)
+			{
+				// get clicks
+				$clicks = $campaign_stats['clicks'][$campaign_id];
+				
+				// get rate
+				$rate = $campaign['rate'];
+				
+				// clicks * rate
+				$rev = $clicks * $rate;
+			}
+			
+			// tennancy
+			if ($campaign['model'] == 3)
+			{
+				// clicks * rate
+				$rev = $campaign['rate'];
+			}
+			
+			$revenue['calculated'][$campaign_id] = $rev;
+		}
+		
 		// sum columns
 		$sums['clicks'] = array_sum($advertisement_stats['clicks']);
 		$sums['impressions'] = array_sum($advertisement_stats['impressions']);
 		$sums['ctr'] = round(($sums['clicks'] / count($advertisement_stats['clicks'])) / ($sums['impressions'] / count($advertisement_stats['impressions'])), 3);
-		
+		$sums['revenue'] = round(array_sum($revenue['calculated']), 3);
+				
 		$this->assign('clients', $clients);
 		$this->assign('campaigns', $campaigns);
 		$this->assign('campaign_stats', $campaign_stats);
 		$this->assign('advertisements', $advertisements);
 		$this->assign('advertisement_stats', $advertisement_stats);
 		$this->assign('sums', $sums);
+		$this->assign('revenue', $revenue);
 				
 		return parent::display();
 	}

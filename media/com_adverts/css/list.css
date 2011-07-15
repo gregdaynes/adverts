@@ -6,3 +6,11 @@
 	border-top: 1px solid #e1e1e1;
 	overflow-y: scroll;
 }
+
+.indent.one {
+	padding-left: 25px;
+}
+
+.indent.two {
+	padding-left: 50px;
+}
