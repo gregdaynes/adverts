@@ -1,0 +1,8 @@
+.sidebar_25 {
+	overflow-y: scroll;
+}
+
+.sidebar_75 {
+	border-top: 1px solid #e1e1e1;
+	overflow-y: scroll;
+}

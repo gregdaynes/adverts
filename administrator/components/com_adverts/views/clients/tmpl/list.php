@@ -5,7 +5,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <ul>
 	<li class="<?= !is_numeric($state->client) ? 'active' : ''; ?>">
 		<a href="<?= @route('client=' ) ?>">
-		    <?= @text('All sites')?>
+		    <?= @text('All clients')?>
 		</a>
 	</li>
 	<? foreach($clients as $client) : ?>
