@@ -107,6 +107,17 @@
 					
 					<tr>
 						<td valign="top" class="key">
+							<label for="rate">
+								<?= @text('Rate / Price') ?>
+							</label>
+						</td>
+						<td>
+							<input type="text" name="rate" size="20" maxlength="12" value="<?= @escape($campaign->rate) ?>" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td valign="top" class="key">
 							<label for="impressions">
 								<?= @text('Impressions') ?>
 							</label>
