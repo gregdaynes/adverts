@@ -31,19 +31,19 @@
 					<?= @text('Revenue'); ?>
 				</th>
 			</tr>
-			<tr>
+			<tr> 
 				<td></td>
 				<td></td>
-				<td>
-					$sum impressions @TODO
+				<td align="center">
+					<?= $sums['impressions']; ?>
 				</td>
-				<td>
-					$sum clicks @TODO
+				<td align="center">
+					<?= $sums['clicks']; ?>
 				</td>
-				<td>
-					$avg CTR @TODO
+				<td align="center">
+					<?= $sums['ctr'].@text('%'); ?>
 				</td>
-				<td>
+				<td align="center">
 					$sum Revenue @TODO
 				</td>
 			</tr>
@@ -76,21 +76,20 @@
 						<td>
 							<?= @(' ::: ').@escape($campaign->name); ?>
 						</td>
-						<td>
-							<?= @escape($campaign_stats[$campaign->id]->impressions); ?>
+						<td align="center">
+							<?= @escape($campaign_stats['impressions'][$campaign->id]); ?>
 							<em> <?= @text(' of ').@escape($campaign->impressions); ?></em>
 						</td>
-						<td>
-							
-							<?= @escape($campaign_stats[$campaign->id]->clicks); ?>
+						<td align="center">
+							<?= @escape($campaign_stats['clicks'][$campaign->id]); ?>
 							<em> <?= @text(' of ').@escape($campaign->clicks); ?></em>
 						</td>
-						<td>
-							<? if ($campaign_stats[$campaign->id]->clicks != 0 && $campaign_stats[$campaign->id]->impressions != 0) {
-								echo round($campaign_stats[$campaign->id]->clicks / $campaign_stats[$campaign->id]->impressions, 3).@text('%');
+						<td align="center">
+							<? if ($campaign_stats['clicks'][$campaign->id] != 0 && $campaign_stats['impressions'][$campaign->id] != 0) {
+								echo round($campaign_stats['clicks'][$campaign->id] / $campaign_stats['impressions'][$campaign->id], 3).@text('%');
 							} else { echo @text('-'); } ?>
 						</td>
-						<td>
+						<td align="center">
 							@todo
 						</td>
 					</tr>
@@ -100,20 +99,20 @@
 							<td>
 								<?= @(' ::: ::: ').@escape($advertisement->name); ?>
 							</td>
-							<td>
-								<?= @escape($advertisement_stats[$advertisement->id]->impressions); ?>
+							<td align="center">
+								<?= @escape($advertisement_stats['impressions'][$advertisement->id]); ?>
 								<em> <?= @text(' of ').@escape($advertisement->impressions); ?>
 							</td>
-							<td>
-								<?= @escape($advertisement_stats[$advertisement->id]->clicks); ?>
+							<td align="center">
+								<?= @escape($advertisement_stats['clicks'][$advertisement->id]); ?>
 								<em> <?= @text(' of ').@escape($advertisement->clicks); ?>
 							</td>
-							<td>
-								<? if ($advertisement_stats[$advertisement->id]->clicks != 0 && $advertisement_stats[$advertisement->id]->impressions != 0) {
-									echo round($advertisement_stats[$advertisement->id]->clicks / $advertisement_stats[$advertisement->id]->impressions, 3).@text('%');
+							<td align="center">
+								<? if ($advertisement_stats['clicks'][$advertisement->id] != 0 && $advertisement_stats['impressions'][$advertisement->id] != 0) {
+									echo round($advertisement_stats['clicks'][$advertisement->id] / $advertisement_stats['impressions'][$advertisement->id], 3).@text('%');
 								} else { echo @text('-'); } ?>
 							</td>
-							<td>
+							<td align="center">
 								@todo
 							</td>
 						</tr>
@@ -121,7 +120,6 @@
 				
 				<? endforeach; ?>
 	
-			
 			<? endforeach; ?>
 			
 			<? if (!count($clients)) : ?>

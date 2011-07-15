@@ -7,8 +7,8 @@ class ComAdvertsModelStats_Clicks extends ComDefaultModelDefault
         parent::__construct($config);
         
         $this->_state
-            ->insert('advertisement_id',	'int')
-            ->insert('campaign_id',	'int')
+            ->insert('advertisement',	'int')
+            ->insert('campaign',	'int')
             ;
     }
         
@@ -18,12 +18,12 @@ class ComAdvertsModelStats_Clicks extends ComDefaultModelDefault
         
         $state = $this->_state;
         
-        if (is_numeric($state->advertisement_id)) {
-            $query->where('tbl.advertisement_id', '=', $state->advertisement_id);
+        if (is_numeric($state->advertisement)) {
+            $query->where('tbl.advertisement_id', '=', $state->advertisement);
         }
         
-        if (is_numeric($state->campaign_id)) {
-            $query->where('tbl.campaign_id', '=', $state->campaign_id);
+        if (is_numeric($state->campaign)) {
+            $query->where('tbl.campaign_id', '=', $state->campaign);
         }
     }
 }
