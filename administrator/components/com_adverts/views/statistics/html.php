@@ -9,10 +9,16 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 		$campaign_stats = array();
 		$advertisements = array();
 		$advertisement_stats = array();
-		$sums = array();
+		$sums = array(
+			'clicks'	=> JText::_('-'),
+			'impressions'	=> JText::_('-'),
+			'ctr'	=> JText::_('-'),
+			'revenue'	=> JText::_('-')
+		);
 		$revenue = array();
-		
+				
 		$clients = KFactory::tmp('admin::com.adverts.model.clients')
+			->set('id', KRequest::get('get.client', 'int'))
 			->getList()
 			;
 	
@@ -101,11 +107,13 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 		}
 		
 		// sum columns
-		$sums['clicks'] = array_sum($advertisement_stats['clicks']);
-		$sums['impressions'] = array_sum($advertisement_stats['impressions']);
-		$sums['ctr'] = round(($sums['clicks'] / count($advertisement_stats['clicks'])) / ($sums['impressions'] / count($advertisement_stats['impressions'])), 3);
-		$sums['revenue'] = round(array_sum($revenue['calculated']), 3);
-				
+		if (count($advertisement_stats)) {
+			$sums['clicks'] = array_sum($advertisement_stats['clicks']);
+			$sums['impressions'] = array_sum($advertisement_stats['impressions']);
+			$sums['ctr'] = round(($sums['clicks'] / count($advertisement_stats['clicks'])) / ($sums['impressions'] / count($advertisement_stats['impressions'])), 3);
+			$sums['revenue'] = round(array_sum($revenue['calculated']), 3);
+		}
+			
 		$this->assign('clients', $clients);
 		$this->assign('campaigns', $campaigns);
 		$this->assign('campaign_stats', $campaign_stats);
