@@ -1,7 +1,9 @@
-<tr>
+cal<tr>
 	<td></td>
 	<td class="indent two">
-		<?= @escape($advertisement->name); ?>
+		<a href="<?= @route('view=statistic&id='.$advertisement->id); ?>">
+			<?= @escape($advertisement->name); ?>
+		</a>
 	</td>
 	<td align="center">
 		<?= @escape($advertisement_stats['impressions'][$advertisement->id]); ?>
