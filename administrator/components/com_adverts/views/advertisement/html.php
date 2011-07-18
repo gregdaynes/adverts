@@ -7,12 +7,12 @@ class ComAdvertsViewAdvertisementHtml extends ComDefaultViewHtml
 	{
 		$id =KRequest::get('get.id', 'int');
 		
-		$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+		$impressions = KFactory::tmp('admin::com.adverts.model.stats_impressions')
 			->set('advertisement_id', $id)
 			->getTotal()
 			;
 			
-		$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+		$clicks = KFactory::tmp('admin::com.adverts.model.stats_clicks')
 			->set('advertisement_id', $id)
 			->getTotal()
 			;

@@ -10,7 +10,7 @@ class ComAdvertsViewAdvertisementsHtml extends ComDefaultViewHtml
 		foreach($advertisements as $advertisement)
 		{
 			// get impressions for advertisement
-			$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+			$impressions = KFactory::tmp('admin::com.adverts.model.stats_impressions')
 				->set('advertisement_id', $advertisement->id)
 				->getTotal()
 				;
@@ -18,7 +18,7 @@ class ComAdvertsViewAdvertisementsHtml extends ComDefaultViewHtml
 			$stats[$advertisement->id]->impressions = $impressions;
 			
 			// get clicks for advertisement
-			$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+			$clicks = KFactory::tmp('admin::com.adverts.model.stats_clicks')
 				->set('advertisement_id', $advertisement->id)
 				->getTotal()
 				;

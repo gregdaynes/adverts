@@ -67,25 +67,25 @@ class ModAdvertsHelper
 		{
 			
 			// get impressions for campaign
-			$campaign_impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+			$campaign_impressions = KFactory::tmp('admin::com.adverts.model.stats_impressions')
 				->set('campaign_id', $advertisement->campaign_id)
 				->getTotal()
 				;
 			
 			// get clicks for campaign
-			$campaign_clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+			$campaign_clicks = KFactory::tmp('admin::com.adverts.model.stats_clicks')
 				->set('campaign_id', $advertisement->campaign_id)
 				->getTotal()
 				;
 				
 			// get impressions for advertisement
-			$advertisement_impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+			$advertisement_impressions = KFactory::tmp('admin::com.adverts.model.stats_impressions')
 				->set('advertisement_id', $advertisement->id)
 				->getTotal()
 				;
 				
 			// get clicks for advertisement
-			$advertisement_clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+			$advertisement_clicks = KFactory::tmp('admin::com.adverts.model.stats_clicks')
 				->set('advertisement_id', $advertisement->id)
 				->getTotal()
 				;
@@ -204,7 +204,7 @@ class ModAdvertsHelper
 				// add blacklist filter
 				/// @TODO
 	
-				KFactory::tmp('admin::com.adverts.database.row.statistics_impressions')
+				KFactory::tmp('admin::com.adverts.database.row.stats_impressions')
 					->setData(array(
 						'campaign_id' => $this->_advertisement->campaign_id,
 						'advertisement_id' => $this->_advertisement->id,

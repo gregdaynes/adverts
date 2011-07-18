@@ -15,7 +15,7 @@ class ComAdvertsControllerAdvertisement extends ComDefaultControllerDefault
 			// add blacklist filter
 			/// @TODO
 
-			KFactory::tmp('admin::com.adverts.database.row.statistics_clicks')
+			KFactory::tmp('admin::com.adverts.database.row.stats_clicks')
 				->setData(array(
 					'campaign_id' => $advertisement->campaign_id,
 					'advertisement_id' => $advertisement->id,
