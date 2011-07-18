@@ -4,6 +4,7 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
+	
 		$clients = array();
 		$campaigns = array();
 		$campaign_stats = array();
@@ -32,12 +33,12 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 				
 			foreach($campaigns[$client->id] as $campaign)
 			{
-				$campaign_stats['impressions'][$campaign->id] = KFactory::tmp('admin::com.adverts.model.stats_impressions')
+				$campaign_stats['impressions'][$campaign->id] = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
 					->set('campaign', $campaign->id)
 					->getTotal()
 					;
 				
-				$campaign_stats['clicks'][$campaign->id] = KFactory::tmp('admin::com.adverts.model.stats_clicks')
+				$campaign_stats['clicks'][$campaign->id] = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
 					->set('campaign', $campaign->id)
 					->getTotal()
 					;
@@ -52,12 +53,12 @@ class ComAdvertsViewStatisticsHtml extends ComDefaultViewHtml
 				
 				foreach($advertisements[$campaign->id] as $advertisement)
 				{
-					$advertisement_stats['impressions'][$advertisement->id] = KFactory::tmp('admin::com.adverts.model.stats_impressions')
+					$advertisement_stats['impressions'][$advertisement->id] = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
 						->set('advertisement', $advertisement->id)
 						->getTotal()
 						;
 					
-					$advertisement_stats['clicks'][$advertisement->id] = KFactory::tmp('admin::com.adverts.model.stats_clicks')
+					$advertisement_stats['clicks'][$advertisement->id] = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
 						->set('advertisement', $advertisement->id)
 						->getTotal()
 						;
