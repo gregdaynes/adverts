@@ -197,10 +197,14 @@
 							<?= $statistic->clicks; ?>
 						</td>
 						<td>
-							CTR at this location
+							<? if ($statistic->clicks != 0 && $statistic->impressions != 0) {
+								echo round(($statistic->clicks / $statistic->impressions) * 100, 3).@text('%');
+							} else {
+								echo @text('-');
+							} ?>
 						</td>
 						<td>
-							Revenue at this location
+							<?= $statistic->revenue; ?>
 						</td>
 					</tr>
 					
@@ -209,11 +213,29 @@
 						<td>
 							<?= $time->datetime; ?>
 						</td>
-						<td>
+						<td align="center">
 							<?= $time->impressions; ?>
 						</td>
-						<td>
-							<?= $time->clicks; ?>
+						<td align="center">
+							<? if ($time->clicks != 0) {
+								echo $time->clicks;
+							} else {
+								echo @text('-');
+							} ?>
+						</td>
+						<td align="center">
+							<? if ($time->clicks != 0 && $time->impressions != 0) {
+								echo round(($time->clicks / $time->impressions) * 100, 3).@text('%');
+							} else {
+								echo @text('-');
+							} ?>
+						</td>
+						<td align="center">
+							<? if ($time->revenue != 0 ) {
+								echo @text('$').$time->revenue;
+							} else {
+								echo @text('-');
+							} ?>
 						</td>
 					</tr>
 					<? endforeach; ?>

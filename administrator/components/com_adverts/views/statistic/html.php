@@ -3,6 +3,7 @@
 class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 {
 	var $_advertisement;
+	var $_campaign;
 	
 	public function __construct(KConfig $config)
 	{
@@ -41,7 +42,8 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 			->set('id', $advertisement->campaign_id)
 			->getItem()
 			;
-			
+		
+		$this->_campaign = $campaign;
 		/**
 		 * get statistics data
 		 */
@@ -67,6 +69,7 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		{
 			$statistic->impressions = $this->_getImpressions($statistic->location);
 			$statistic->clicks		= $this->_getClicks($statistic->location);
+			$statistic->revenue		= $this->_getRevenue($statistic->impressions, $statistic->clicks);
 			$statistic->time		= $this->_getTime($statistic->location);
 		}
 		
@@ -89,8 +92,8 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		if ($location)
 		{
 			$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
-				->set('advertisement_id',	$this->_advertisement)
-				->set('location',			$location)
+				->set('advertisement',	$this->_advertisement)
+				->set('location',		$location)
 				->getTotal()
 				;
 		}
@@ -105,13 +108,38 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		if ($location)
 		{
 			$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
-				->set('advertisement_id',	$this->_advertisement)
-				->set('location',			$location)
+				->set('advertisement',	$this->_advertisement)
+				->set('location',		$location)
 				->getTotal()
 				;
 		}
 		
 		return $clicks;
+	}
+	
+	private function _getRevenue($impressions, $clicks)
+	{
+		$campaign	= $this->_campaign;
+		$model		= $campaign->price_model;
+		$rate		= $campaign->rate;
+		$revenue	= 0;
+		
+		// cpm
+		if ($model == 1) {
+			$revenue = ($impressions / 1000) * $rate;
+		}
+		
+		// cpc
+		if ($model == 2) {
+			$revenue = $clicks * $rate;
+		}
+		
+		// tennancy
+		if ($model == 3) {
+			$revenue = $rate;
+		}
+		
+		return $revenue;
 	}
 	
 	private function _getTime($location = null)
@@ -121,18 +149,18 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		if ($location)
 		{
 			$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
-				->set('advertisement_id',	$this->_advertisement)
-				->set('location',			$location)
-				->set('time',				true)
+				->set('advertisement',	$this->_advertisement)
+				->set('location',		$location)
+				->set('time',			true)
 				->getList()
 				;
 			
 			$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
-				->set('advertisement_id',	$this->_advertisement)
-				->set('location', 			$location)
-				->set('time',				true)
+				->set('advertisement',	$this->_advertisement)
+				->set('location', 		$location)
+				->set('time',			true)
 				->getList();
-				
+			
 			$times = $this->_combineStatistics($impressions, $clicks);
 		}
 		 
@@ -147,9 +175,9 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 			
 			foreach($clicks as $index => $click)
 			{
-				if ($index == $key)
-				{
+				if ($index == $key) {
 					$statistic->clicks = $click->clicks;
+					$statistic->revenue = $this->_getRevenue($statistic->impressions, $click->clicks);
 				}
 			}
 		}
