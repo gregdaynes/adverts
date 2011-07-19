@@ -16,10 +16,10 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
     
     protected function _buildQueryColumns(KDatabaseQuery $query)
     {
-    	parent::_buildQueryWhere($query);
+    	parent::_buildQueryColumns($query);
     	
     	if ($this->_state->time) {
-	    	$query->select('COUNT(tbl.adverts_statistics_impression_id)');
+	    	$query->select('COUNT(tbl.advertisement_id) AS impressions');
     	}
     }
     

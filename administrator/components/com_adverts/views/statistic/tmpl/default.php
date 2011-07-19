@@ -203,6 +203,17 @@
 							Revenue at this location
 						</td>
 					</tr>
+					
+					<? foreach($statistic->time as $time) : ?>
+					<tr>
+						<td>
+							<?= $time->datetime; ?>
+						</td>
+						<td>
+							<?= $time->impressions; ?>
+						</td>
+					</tr>
+					<? endforeach; ?>
 					<? endforeach; ?>
 				</tbody>
 			</table>
