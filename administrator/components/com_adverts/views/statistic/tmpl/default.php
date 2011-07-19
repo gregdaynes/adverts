@@ -212,6 +212,9 @@
 						<td>
 							<?= $time->impressions; ?>
 						</td>
+						<td>
+							<?= $time->clicks; ?>
+						</td>
 					</tr>
 					<? endforeach; ?>
 					<? endforeach; ?>

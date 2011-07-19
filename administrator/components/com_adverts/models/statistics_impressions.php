@@ -19,7 +19,10 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
     	parent::_buildQueryColumns($query);
     	
     	if ($this->_state->time) {
-	    	$query->select('COUNT(tbl.advertisement_id) AS impressions');
+	    	$query
+	    		->select('COUNT(tbl.advertisement_id) AS impressions')
+	    		->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime')
+	    		;
     	}
     }
     

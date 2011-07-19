@@ -10,9 +10,22 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
             ->insert('advertisement',	'int')
             ->insert('campaign',		'int')
             ->insert('location',		'string')
+            ->insert('time', 			'boolean')
             ;
     }
         
+    protected function _buildQueryColumns(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryColumns($query);
+    	
+    	if ($this->_state->time) {
+    		$query
+    			->select('COUNT(tbl.advertisement_id) AS clicks')
+    			->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime')
+    			;
+    	}
+    }
+    
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
         parent::_buildQueryWhere($query);
@@ -30,5 +43,15 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
         if (is_string($state->location)) {
         	$query->where('tbl.location', '=', $state->location);
         }
+    }
+    
+    protected function _buildQueryGroup(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryGroup($query);
+    	
+    	if ($this->_state->time) {
+    		$query->group('tbl.location');
+    		$query->group('HOUR(tbl.datetime)');
+    	}
     }
 }

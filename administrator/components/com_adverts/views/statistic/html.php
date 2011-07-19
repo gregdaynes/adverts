@@ -120,14 +120,55 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		
 		if ($location)
 		{
-			$times = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+			$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
 				->set('advertisement_id',	$this->_advertisement)
 				->set('location',			$location)
 				->set('time',				true)
 				->getList()
 				;
+			
+			$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+				->set('advertisement_id',	$this->_advertisement)
+				->set('location', 			$location)
+				->set('time',				true)
+				->getList();
+				
+			$times = $this->_combineStatistics($impressions, $clicks);
+		}
+		 
+		return $times;
+	}
+	
+	private function _combineStatistics($statistics, $clicks)
+	{
+		foreach($statistics as $statistic)
+		{
+			$key = $this->_array_search($statistic->datetime, $clicks);
+			
+			foreach($clicks as $index => $click)
+			{
+				if ($index == $key)
+				{
+					$statistic->clicks = $click->clicks;
+				}
+			}
 		}
 		
-		return $times;
+		return $statistics;
+	}
+	
+	private function _array_search($needle, $haystack)
+	{
+		if (!isset($haystack['date time']))
+		{
+			foreach($haystack as $key => $value)
+			{
+				if ($value['datetime'] == $needle) {
+					return $key;
+				}
+			}
+		}
+		
+		return false;
 	}
 }
