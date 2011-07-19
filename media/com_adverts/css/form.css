@@ -31,11 +31,6 @@ label[for="url"] input#url {
 	padding: 2px;
 }
 
-.hidden {
-	display: none;
-	height: 0;
-}
-
 .advertisement_preview {
 	width: 100%;
 }
@@ -43,3 +38,14 @@ label[for="url"] input#url {
 .advertisement_preview img {
 	max-width: 100%;
 }
+
+.table_head td {
+	background-color: #F7F7F7;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');	
+	background: #f0f0f0;
+	color: #666;
+	font-weight: bold;
+}
+

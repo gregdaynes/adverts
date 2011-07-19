@@ -26,6 +26,9 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 			->set('id', $advertisement)
 			->getItem()
 			;
+		
+		$advertisement->tot_impressions = $this->_getImpressions();
+		$advertisement->tot_clicks = $this->_getClicks();
 			
 		/**
 		 * get client data
@@ -88,15 +91,12 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 	private function _getImpressions($location = null)
 	{
 		$impression = null;
-		
-		if ($location)
-		{
-			$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
-				->set('advertisement',	$this->_advertisement)
-				->set('location',		$location)
-				->getTotal()
-				;
-		}
+
+		$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+			->set('advertisement',	$this->_advertisement)
+			->set('location',		$location)
+			->getTotal()
+			;
 		
 		return $impressions;
 	}
@@ -104,15 +104,12 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 	private function _getClicks($location = null)
 	{
 		$clicks = null;
-		
-		if ($location)
-		{
-			$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
-				->set('advertisement',	$this->_advertisement)
-				->set('location',		$location)
-				->getTotal()
-				;
-		}
+
+		$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+			->set('advertisement',	$this->_advertisement)
+			->set('location',		$location)
+			->getTotal()
+			;
 		
 		return $clicks;
 	}

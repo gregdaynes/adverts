@@ -1,4 +1,4 @@
-cal<tr>
+<tr>
 	<td></td>
 	<td class="indent two">
 		<a href="<?= @route('view=statistic&id='.$advertisement->id); ?>">

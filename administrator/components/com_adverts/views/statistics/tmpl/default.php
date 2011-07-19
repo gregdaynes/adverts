@@ -3,7 +3,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <script src="media://com_adverts/js/list.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-<style src="media://com_adverts/css/list.css" />
+<style src="media://com_adverts/css/statistic.css" />
 
 <?= @template('default_sidebar'); ?>
 

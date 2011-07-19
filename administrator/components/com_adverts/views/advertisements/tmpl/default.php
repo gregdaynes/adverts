@@ -103,8 +103,7 @@
 					} ?>
 				</td>
 				<td align="center">
-					<? 
-					echo @escape($stats[$advertisement->id]->impressions).@text(' / ');
+					<? echo @escape($stats[$advertisement->id]->impressions).@text(' / ');
 					
 					if ($advertisement->impressions <= 0) {
 						echo @text('Unlimited');

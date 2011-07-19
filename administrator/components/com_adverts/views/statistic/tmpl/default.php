@@ -4,6 +4,8 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 <style src="media://com_adverts/css/form.css" />
+<style src="media://com_adverts/css/statistic.css" />
+<style src="media://com_adverts/css/print.css" media="print" />
 
 <form class="-koowa-form">
 	<div class="grid_8" >
@@ -65,6 +67,16 @@
 							<?= @escape($advertisement->height); ?>
 						</td>
 					</tr>
+					<tr>
+						<td align="top" class="key">
+							<label for="notes">
+								<?= @text('Notes'); ?>
+							</label>
+						</td>
+						<td>
+							<?= @escape($advertisement->notes); ?>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -80,15 +92,24 @@
 							</label>
 						</td>
 						<td>
-							<?= @escape($advertisement->enabled); ?>
+							<? if ($advertisement->enabled) {
+								echo @text('Published');
+							} else {
+								echo @text('Unpublished');
+							}
+							?>
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" class="key">
 							<?= @text('Start Date') ?>
 						</td>
-						<td>
-							<?= @escape($advertisement->publish_up); ?>
+						<td>							
+							<? if ($advertisement->publish_up == '0000-00-00 00:00:00') {
+									echo @text('Not set');
+								} else {
+								echo @helper('date.format', array('date' => $advertisement->publish_up));
+							} ?>
 						</td>
 					</tr>
 					<tr>
@@ -96,7 +117,11 @@
 							<?= @text('End Date') ?>
 						</td>
 						<td>
-							<?= @escape($advertisement->publish_down); ?>
+							<? if ($advertisement->publish_down == '0000-00-00 00:00:00') {
+									echo @text('Never');
+								} else {
+								echo @helper('date.format', array('date' => $advertisement->publish_down));
+							} ?>
 						</td>
 					</tr>
 					
@@ -107,7 +132,13 @@
 							</label>
 						</td>
 						<td>
-							<?= @escape($advertisement->impressions); ?>
+							<? echo @escape($advertisement->tot_impressions).@text(' / ');
+							
+							if ($advertisement->impressions <= 0) {
+								echo @text('Unlimited');
+							} else {
+								echo @escape($advertisement->impressions);
+							} ?>
 						</td>
 					</tr>
 					
@@ -118,7 +149,13 @@
 							</label>
 						</td>
 						<td>
-							<?= @escape($advertisement->clicks); ?>
+							<? echo @escape($advertisement->tot_clicks).@text(' / ');
+							
+							if ($advertisement->clicks <= 0) {
+								echo @text('Unlimited');
+							} else {
+								echo @escape($advertisement->clicks);
+							} ?>
 						</td>
 					</tr>
 				</tbody>
@@ -145,73 +182,59 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
-	
-	<div class="grid_4">
 		
 		<div class="panel">
-			<h3><?= @text('Zones') ?></h3>
-			@advertisement->zones
-		</div>
-				
-		<div class="panel">
-	        <h3><?= @text('Notes') ?></h3>
-	        <div id="notes"><?= @escape($advertisement->notes); ?></div>
-	    </div>
-	    
-	</div>
-	
-	<div class="grid_12">
-		<div class="panel">
 			<h3><?= @text( 'Statistics' ); ?></h3>
-			<table class="admintable" width="100%">
-				<thead>
-					<tr>
-						<th>
-							<?= @text('Location'); ?>
-						</th>
-						<th>
-							<?= @text('Impressions'); ?>
-						</th>
-						<th>
-							<?= @text('Clicks'); ?>
-						</th>
-						<th>
-							<?= @text('CTR'); ?>
-						</th>
-						<th>
-							<?= @text('Revenue'); ?>
-						</th>
-					</tr>
-				</thead>
+			<table class="adminlist" width="100%">
 				<tbody>
+					<tr class="table_head">
+						<td align="left" width="100%">
+							<?= @text('Location'); ?>
+						</td>
+						<td align="center">
+							<?= @text('Impressions'); ?>
+						</td>
+						<td align="center">
+							<?= @text('Clicks'); ?>
+						</td>
+						<td align="center">
+							<?= @text('CTR'); ?>
+						</td>
+						<td align="center">
+							<?= @text('Revenue'); ?>
+						</td>
+					</tr>
 					<? foreach($statistics as $statistic) : ?>
 					<tr>
 						<td>
 							<?= $statistic->location; ?>
-						</td>
-						<td>
+						</td align="center">
+						<td align="center">
 							<?= $statistic->impressions; ?>
 						</td>
-						<td>
+						<td align="center">
 							<?= $statistic->clicks; ?>
 						</td>
-						<td>
+						<td align="center">
 							<? if ($statistic->clicks != 0 && $statistic->impressions != 0) {
 								echo round(($statistic->clicks / $statistic->impressions) * 100, 3).@text('%');
 							} else {
 								echo @text('-');
 							} ?>
 						</td>
-						<td>
-							<?= $statistic->revenue; ?>
+						<td align="center">
+							<? if ($statistic->revenue != 0 ) {
+								echo @text('$').$statistic->revenue;
+							} else {
+								echo @text('-');
+							} ?>
 						</td>
 					</tr>
 					
 					<? foreach($statistic->time as $time) : ?>
 					<tr>
-						<td>
-							<?= $time->datetime; ?>
+						<td class="indent two">
+							<?= @helper('date.format', array('date' => $time->datetime)) ?>
 						</td>
 						<td align="center">
 							<?= $time->impressions; ?>
@@ -244,4 +267,14 @@
 			</table>
 		</div>
 	</div>
+	
+	<div class="grid_4">
+		
+		<div class="panel">
+			<h3><?= @text('Zones') ?></h3>
+			@advertisement->zones
+		</div>
+	    
+	</div>
+	
 </form>
