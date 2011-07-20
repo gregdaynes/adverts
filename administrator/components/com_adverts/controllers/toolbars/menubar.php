@@ -7,8 +7,13 @@ class ComAdvertsControllerToolbarMenubar extends ComDefaultControllerToolbarMenu
         $name = $this->getController()->getIdentifier()->name;
         
         $this->addCommand('Sites', array(
-                'href'   => JRoute::_('index.php?option=com_adverts&view=sites'),
-                'active' => ($name == 'site')
+            'href'   => JRoute::_('index.php?option=com_adverts&view=sites'),
+            'active' => ($name == 'site')
+        ));
+        
+        $this->addCommand('Sizes', array(
+        	'href'	=> JRoute::_('index.php?option=com_adverts&view=sizes'),
+        	'active'	=> ($name == 'size')
         ));
         
         $this->addCommand('Zones', array(
