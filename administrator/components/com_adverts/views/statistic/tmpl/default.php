@@ -184,12 +184,13 @@
 		</div>
 		
 		<div class="panel">
-			<h3><?= @text( 'Statistics' ); ?></h3>
+			<h3><?= @text( 'Statistics' ) . @template('default_filter'); ?><div class="clear"></div></h3>
 			<table class="adminlist" width="100%">
 				<tbody>
 					<tr class="table_head">
 						<td align="left" width="100%">
 							<?= @text('Location'); ?>
+							
 						</td>
 						<td align="center">
 							<?= @text('Impressions'); ?>
@@ -207,7 +208,7 @@
 					<? foreach($statistics as $statistic) : ?>
 					<tr>
 						<td>
-							<?= $statistic->location; ?>
+							<?= $statistic->group_name; ?>
 						</td align="center">
 						<td align="center">
 							<?= $statistic->impressions; ?>
@@ -235,11 +236,17 @@
 					<tr>
 						<td class="indent two">
 							<?= @helper('date.format', array('date' => $time->datetime)) ?>
+							
+							<?= @text(' - '); ?>
+							
+							<?= date("g:i:s a", strtotime($time->datetime)); ?>
 						</td>
 						<td align="center">
 							<?= $time->impressions; ?>
 						</td>
 						<td align="center">
+							<?= $time->clicks; ?>
+						
 							<? if ($time->clicks != 0) {
 								echo $time->clicks;
 							} else {

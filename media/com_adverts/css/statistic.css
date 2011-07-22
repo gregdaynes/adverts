@@ -18,3 +18,10 @@
 	border-top: 1px solid #e1e1e1;
 	overflow-y: scroll;
 }
+
+.panel #filter {
+	float: right;
+	background: none;
+	border: none;
+	padding: 0;
+}

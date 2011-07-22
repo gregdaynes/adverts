@@ -18,6 +18,8 @@ class ComAdvertsModelStatistics_Locations extends ComDefaultModelDefault
     public function _buildQueryColumns(KDatabaseQuery $query)
     {
     	parent::_buildQueryColumns($query);
+    	
+    	$query->select('tbl.location AS group_name');
     }
     
     public function _buildQueryWhere(KDatabaseQuery $query)

@@ -4,12 +4,15 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 {
 	var $_advertisement;
 	var $_campaign;
+	var $_state;
 	
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 		
 		$this->_advertisement = KRequest::get('get.id', 'int');
+		
+		$this->_state = $this->getModel()->getState();		
 	}
 	
 	public function display()
@@ -18,7 +21,7 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		$client			= null;
 		$campaign		= null;
 		$statistics		= null;
-		
+				
 		/**
 		 * get advertisement data
 		 */
@@ -27,8 +30,8 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 			->getItem()
 			;
 		
-		$advertisement->tot_impressions = $this->_getImpressions();
-		$advertisement->tot_clicks = $this->_getClicks();
+		$advertisement->tot_impressions = $this->_getStat('impressions');
+		$advertisement->tot_clicks = $this->_getStat('clicks');
 			
 		/**
 		 * get client data
@@ -47,6 +50,7 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 			;
 		
 		$this->_campaign = $campaign;
+		
 		/**
 		 * get statistics data
 		 */
@@ -65,22 +69,53 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 	 * grouped by location, time (hour)
 	 */
 	public function statistics()
-	{		
-		$statistics = $this->_getLocations();
+	{	
+		$state = $this->_state;
+		$statistics = null;
 		
-		foreach($statistics as $statistic)
-		{
-			$statistic->impressions = $this->_getImpressions($statistic->location);
-			$statistic->clicks		= $this->_getClicks($statistic->location);
-			$statistic->revenue		= $this->_getRevenue($statistic->impressions, $statistic->clicks);
-			$statistic->time		= $this->_getTime($statistic->location);
+		// not grouped data
+		if (is_numeric($state->group)) {
+			// grouped data
+			if ($state->group == '1') { // group by location
+				$statistics = $this->_getLocations();
+			}
+		}
+		
+		if ($statistics) {
+			if (is_object($statistics)) {
+				
+				foreach($statistics as $statistic)
+				{
+					$statistic->impressions = $this->_getStat('impressions', $statistic->location);
+					$statistic->clicks		= $this->_getStat('clicks', $statistic->location);
+					$statistic->revenue		= $this->_getRevenue($statistic->impressions, $statistic->clicks);
+					$statistic->time		= $this->_getTime($statistic->location);
+				}
+				
+			} 
+		} else {
+			
+			$imps	= $this->_getStat('impressions');
+			$clicks	= $this->_getStat('clicks');
+			
+			$statistic = array(
+				'group_name'	=> JText::_('All'),
+				'impressions'	=> $this->_getStat('impressions'),
+				'clicks'		=> $this->_getStat('clicks'),
+				'revenue'		=> $this->_getRevenue($imps, $clicks),
+				'time'			=> $this->_getTime()
+			);
+			
+			$statistic = (object) $statistic;
+			$statistics = new stdClass;
+			$statistics->new = $statistic;
 		}
 		
 		return $statistics;
 	}
 	
 	private function _getLocations()
-	{
+	{	
 		$locations = KFactory::tmp('admin::com.adverts.model.statistics_locations')
 			->getList()
 			;
@@ -88,30 +123,17 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		return $locations;
 	}
 	
-	private function _getImpressions($location = null)
+	private function _getStat($type = null, $location = null)
 	{
-		$impression = null;
-
-		$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+		$stat = null;
+		
+		$stat = KFactory::tmp('admin::com.adverts.model.statistics_'.$type)
 			->set('advertisement',	$this->_advertisement)
 			->set('location',		$location)
 			->getTotal()
 			;
 		
-		return $impressions;
-	}
-	
-	private function _getClicks($location = null)
-	{
-		$clicks = null;
-
-		$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
-			->set('advertisement',	$this->_advertisement)
-			->set('location',		$location)
-			->getTotal()
-			;
-		
-		return $clicks;
+		return $stat;
 	}
 	
 	private function _getRevenue($impressions, $clicks)
@@ -141,27 +163,23 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 	
 	private function _getTime($location = null)
 	{
-		$times = null;
+		$state = $this->_state;
 		
-		if ($location)
-		{
-			$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
-				->set('advertisement',	$this->_advertisement)
-				->set('location',		$location)
-				->set('time',			true)
-				->getList()
-				;
-			
-			$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
-				->set('advertisement',	$this->_advertisement)
-				->set('location', 		$location)
-				->set('time',			true)
-				->getList();
-			
-			$times = $this->_combineStatistics($impressions, $clicks);
-		}
-		 
-		return $times;
+		$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
+			->set('advertisement',	$this->_advertisement)
+			->set('location',		$location)
+			->set('time',			$state->time)
+			->getList()
+			;
+		
+		$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
+			->set('advertisement',	$this->_advertisement)
+			->set('location', 		$location)
+			->set('time',			$state->time)
+			->getList();
+		
+		return $this->_combineStatistics($impressions, $clicks);
+		
 	}
 	
 	private function _combineStatistics($statistics, $clicks)

@@ -10,21 +10,29 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
             ->insert('advertisement',	'int')
             ->insert('campaign',		'int')
             ->insert('location',		'string')
-            ->insert('time', 			'boolean')
+            
+            // filters
+            ->insert('time', 			'int')
+            ->insert('group',			'int')
             ;
     }
-        
+    
     protected function _buildQueryColumns(KDatabaseQuery $query)
     {
     	parent::_buildQueryColumns($query);
     	
-    	if ($this->_state->time) {
-    		$query
-    			->select('COUNT(tbl.advertisement_id) AS clicks')
-    			->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime')
-    			;
+    	$state = $this->_state;
+
+    	$query->select('COUNT(tbl.advertisement_id) AS clicks');
+    	
+    	if (!is_numeric($state->time)) {
+    		$query->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime');
     	}
-    }
+    	
+    	if ($state->time == '1') {
+    		$query->select('DATE_FORMAT(tbl.datetime, \'%d-%m-%Y 00:00:00\') AS datetime');
+    	}
+	}
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
@@ -49,9 +57,35 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
     {
     	parent::_buildQueryGroup($query);
     	
-    	if ($this->_state->time) {
+    	$state = $this->_state;
+    	
+    	if ($state->location) {
     		$query->group('tbl.location');
-    		$query->group('HOUR(tbl.datetime)');
+    	}
+    	
+    	if (!is_numeric($state->time)) {
+		    $query->group('HOUR(tbl.datetime)');
+		}
+		
+		if ($state->time == '1') {
+			$query->group('DAY(tbl.datetime)');
+		}
+		
+		if ($state->time == '2') {
+			$query->group('MONTH(tbl.datetime)');
+		}
+		
+		if ($state->time == '3') {
+			$query->group('YEAR(tbl.datetime)');
+		}
+    }
+    
+    protected function _buildQueryOrder(KDatabaseQuery $query) 
+    {
+    	parent::_buildQueryOrder($query);
+    	
+    	if ($this->_state->time) {
+    		$query->order('tbl.datetime', 'DESC');
     	}
     }
 }
