@@ -7,7 +7,8 @@ class ModAdvertsHelper
 	var $_advertisement;
 	
 	public function getAdvert()
-	{		
+	{	
+		
 		// get advertisement list
 		$this->_advertisements = KFactory::tmp('admin::com.adverts.model.advertisements')
 			->set('zone', $this->params->get('zone', 0))

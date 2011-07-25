@@ -244,9 +244,7 @@
 						<td align="center">
 							<?= $time->impressions; ?>
 						</td>
-						<td align="center">
-							<?= $time->clicks; ?>
-						
+						<td align="center">						
 							<? if ($time->clicks != 0) {
 								echo $time->clicks;
 							} else {
@@ -261,11 +259,7 @@
 							} ?>
 						</td>
 						<td align="center">
-							<? if ($time->revenue != 0 ) {
-								echo @text('$').$time->revenue;
-							} else {
-								echo @text('-');
-							} ?>
+							<?= @text('-') ?>
 						</td>
 					</tr>
 					<? endforeach; ?>

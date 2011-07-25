@@ -86,8 +86,8 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 				
 				foreach($statistics as $statistic)
 				{
-					$statistic->impressions = $this->_getStat('impressions', $statistic->location);
-					$statistic->clicks		= $this->_getStat('clicks', $statistic->location);
+					$statistic->impressions = $this->_getStat('impressions', 'total', $statistic->location);
+					$statistic->clicks		= $this->_getStat('clicks', 'total', $statistic->location);
 					$statistic->revenue		= $this->_getRevenue($statistic->impressions, $statistic->clicks);
 					$statistic->time		= $this->_getTime($statistic->location);
 				}
@@ -123,17 +123,25 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		return $locations;
 	}
 	
-	private function _getStat($type = null, $location = null)
+	private function _getStat($type = null, $style = 'total', $location = null, $time = null)
 	{
 		$stat = null;
 		
 		$stat = KFactory::tmp('admin::com.adverts.model.statistics_'.$type)
 			->set('advertisement',	$this->_advertisement)
-			->set('location',		$location)
-			->getTotal()
+			->set('location', 		$location)
+			->set('time',			$time)
 			;
 		
-		return $stat;
+		if ($style == 'list') {
+			return $stat->getList();
+		}
+		
+		if ($style == 'total') {
+			return $stat->getTotal();
+		}
+		
+		return null;
 	}
 	
 	private function _getRevenue($impressions, $clicks)
@@ -165,53 +173,17 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 	{
 		$state = $this->_state;
 		
-		$impressions = KFactory::tmp('admin::com.adverts.model.statistics_impressions')
-			->set('advertisement',	$this->_advertisement)
-			->set('location',		$location)
-			->set('time',			$state->time)
-			->getList()
-			;
+		$impressions = $this->_getStat('impressions', 'list', $location);
 		
-		$clicks = KFactory::tmp('admin::com.adverts.model.statistics_clicks')
-			->set('advertisement',	$this->_advertisement)
-			->set('location', 		$location)
-			->set('time',			$state->time)
-			->getList();
-		
-		return $this->_combineStatistics($impressions, $clicks);
-		
-	}
-	
-	private function _combineStatistics($statistics, $clicks)
-	{
-		foreach($statistics as $statistic)
-		{
-			$key = $this->_array_search($statistic->datetime, $clicks);
+		foreach($impressions as $impression) {
 			
-			foreach($clicks as $index => $click)
-			{
-				if ($index == $key) {
-					$statistic->clicks = $click->clicks;
-					$statistic->revenue = $this->_getRevenue($statistic->impressions, $click->clicks);
-				}
-			}
+			$clicks = $this->_getStat('clicks', 'total', $location, strtotime($impression->datetime_hour));
+			
+			$impression->clicks = $clicks;
+			
 		}
 		
-		return $statistics;
-	}
-	
-	private function _array_search($needle, $haystack)
-	{
-		if (!isset($haystack['date time']))
-		{
-			foreach($haystack as $key => $value)
-			{
-				if ($value['datetime'] == $needle) {
-					return $key;
-				}
-			}
-		}
-		
-		return false;
+		return $impressions;
+				
 	}
 }

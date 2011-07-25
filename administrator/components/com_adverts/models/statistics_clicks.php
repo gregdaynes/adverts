@@ -13,7 +13,6 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
             
             // filters
             ->insert('time', 			'int')
-            ->insert('group',			'int')
             ;
     }
     
@@ -23,15 +22,9 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
     	
     	$state = $this->_state;
 
-    	$query->select('COUNT(tbl.advertisement_id) AS clicks');
-    	
-    	if (!is_numeric($state->time)) {
-    		$query->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime');
-    	}
-    	
-    	if ($state->time == '1') {
-    		$query->select('DATE_FORMAT(tbl.datetime, \'%d-%m-%Y 00:00:00\') AS datetime');
-    	}
+    	$query
+    		->select('COUNT(tbl.advertisement_id) AS clicks')
+    		->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime_hour');
 	}
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -51,6 +44,13 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
         if (is_string($state->location)) {
         	$query->where('tbl.location', '=', $state->location);
         }
+        
+        if (is_numeric($state->time)) {
+        	$query
+        		->where('UNIX_TIMESTAMP(tbl.datetime)', '>=', $state->time)
+        		->where('UNIX_TIMESTAMP(tbl.datetime)', '<=', ($state->time + 3599))
+        		;
+        }
     }
     
     protected function _buildQueryGroup(KDatabaseQuery $query)
@@ -63,29 +63,14 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
     		$query->group('tbl.location');
     	}
     	
-    	if (!is_numeric($state->time)) {
-		    $query->group('HOUR(tbl.datetime)');
-		}
+		$query->group('datetime_hour');
 		
-		if ($state->time == '1') {
-			$query->group('DAY(tbl.datetime)');
-		}
-		
-		if ($state->time == '2') {
-			$query->group('MONTH(tbl.datetime)');
-		}
-		
-		if ($state->time == '3') {
-			$query->group('YEAR(tbl.datetime)');
-		}
     }
     
     protected function _buildQueryOrder(KDatabaseQuery $query) 
     {
     	parent::_buildQueryOrder($query);
     	
-    	if ($this->_state->time) {
-    		$query->order('tbl.datetime', 'DESC');
-    	}
+    	$query->order('tbl.datetime', 'DESC');
     }
 }

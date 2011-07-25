@@ -1,7 +1,7 @@
 <? /** $Id$ **/ ?>
 <?php defined('KOOWA') or die('Restricted access');
 
-class ModAdvertsView extends ModDefaultView
+class ModAdvertsHtml extends ModDefaultView
 {
 	public function display()
 	{
