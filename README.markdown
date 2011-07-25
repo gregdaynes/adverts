@@ -25,6 +25,7 @@ Lots planned for this. Almost too much.
 
 ### Module
 * re-factor completely and thoroughly test.
+	* probably have to add some sort of cache-busting code probably a ?XXX to the filename.
 * new templates/layouts
 
 ### General

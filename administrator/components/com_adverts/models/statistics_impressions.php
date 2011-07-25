@@ -13,6 +13,7 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
             
             // filters
             ->insert('time', 			'int')
+            ->insert('date',			'int')
             ;
     }
     
@@ -22,9 +23,22 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
     	
     	$state = $this->_state;
 
-    	$query
-    		->select('COUNT(tbl.advertisement_id) AS impressions')
-    		->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime_hour');
+    	$query->select('COUNT(tbl.advertisement_id) AS impressions');
+    		
+    	if (!is_numeric($state->date)) {
+    		$query->select('tbl.datetime + INTERVAL CASE WHEN EXTRACT(MINUTE_SECOND FROM tbl.datetime) BETWEEN 0 AND 5959 THEN + 0 - TIME_TO_SEC(EXTRACT(MINUTE_SECOND FROM tbl.datetime)) END SECOND AS datetime_filter');
+    	}
+    	
+    	if ($state->date) {
+    		
+    		if ($state->date == 1) {
+    			$query->select('DATE(tbl.datetime) AS datetime_filter');
+    		}
+    		
+    		if ($state->date >= 2) {
+    			$query->select('tbl.datetime AS datetime_filter');
+    		}
+    	}
 	}
     
     protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -46,9 +60,25 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
         }
         
         if (is_numeric($state->time)) {
+        	$end_time = 3599; // one hour
+        	
+        	if ($state->date == 1) {
+        		$end_time = 86399; // one day
+        	}
+
+        	if ($state->date == 2) {
+        		$state->time = date('Y-m-01 00:00:00', $state->time);
+        		$end_time = strtotime($state->time . '+1 month' );
+        	}
+        	
+        	if ($state->date == 3) {
+        		$state->time = date('Y-01-01 00:00:00', $state-time);
+        		$end_time	= $strtotime($state->time . '+1 year');
+        	}
+        	
         	$query
         		->where('UNIX_TIMESTAMP(tbl.datetime)', '>=', $state->time)
-        		->where('UNIX_TIMESTAMP(tbl.datetime)', '<=', ($state->time + 3599))
+        		->where('UNIX_TIMESTAMP(tbl.datetime)', '<=', ($state->time + $end_time))
         		;
         }
     }
@@ -63,7 +93,21 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
     		$query->group('tbl.location');
     	}
     	
-		$query->group('datetime_hour');
+		if (!is_numeric($state->date)) {
+			$query->group('datetime_filter');
+		}
+		
+		if ($state->date == 1) {
+			$query->group('DATE(tbl.datetime)');
+		}
+		
+		if ($state->date == 2) {
+			$query
+				->group('YEAR(tbl.datetime)')
+				->group('MONTH(tbl.datetime)')
+				;
+		}
+
 		
     }
     

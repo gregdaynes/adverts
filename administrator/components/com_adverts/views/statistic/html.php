@@ -126,11 +126,13 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 	private function _getStat($type = null, $style = 'total', $location = null, $time = null)
 	{
 		$stat = null;
+		$state = $this->_state;
 		
 		$stat = KFactory::tmp('admin::com.adverts.model.statistics_'.$type)
 			->set('advertisement',	$this->_advertisement)
 			->set('location', 		$location)
 			->set('time',			$time)
+			->set('date',			$state->date)
 			;
 		
 		if ($style == 'list') {
@@ -176,8 +178,10 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		$impressions = $this->_getStat('impressions', 'list', $location);
 		
 		foreach($impressions as $impression) {
+		
+			echo $impression->datetime_filter;
 			
-			$clicks = $this->_getStat('clicks', 'total', $location, strtotime($impression->datetime_hour));
+			$clicks = $this->_getStat('clicks', 'total', $location, strtotime($impression->datetime_filter));
 			
 			$impression->clicks = $clicks;
 			

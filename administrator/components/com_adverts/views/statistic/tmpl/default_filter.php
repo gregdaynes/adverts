@@ -4,7 +4,7 @@
 	$parts = array(
 		'id'	=> KRequest::get('get.id', 'int'),
 		'group'	=> $state->group,
-		'time'	=> $state->time
+		'date'	=> $state->date
 	);
 	
 	$route = new stdClass();
@@ -17,37 +17,37 @@
 <div id="filter" class="group">
 	<ul>
 		<li class="<?= !is_numeric($state->group) ? 'active' : ''; ?>">
-			<a href="<?= @route($route->id.'&'.$route->time.'&group=') ?>">
+			<a href="<?= @route($route->id.'&'.$route->date.'&group=') ?>">
 			    <?= @text('All') ?>
 			</a> 
 		</li>
 		
 		<li class="<?= ($state->group) == '1' ? 'active' : ''; ?> separator-right">
-			<a href="<?= @route($route->id.'&'.$route->time.'&group=1') ?>">
+			<a href="<?= @route($route->id.'&'.$route->date.'&group=1') ?>">
 			    <?= @text('Location') ?>
 			</a>
 		</li>  
 	
-		<li class="<?= !is_numeric($state->time) ? 'active' : ''; ?>">
-			<a href="<?= @route($route->id.'&'.$route->group.'&time=') ?>">
+		<li class="<?= !is_numeric($state->date) ? 'active' : ''; ?>">
+			<a href="<?= @route($route->id.'&'.$route->group.'&date=') ?>">
 			    <?= @text('Hour') ?>
 			</a>
 		</li>   
 		           
-		<li class="<?= $state->time == '1' ? 'active' : ''; ?>">
-			<a href="<?= @route($route->id.'&'.$route->group.'&time=1') ?>">
+		<li class="<?= $state->date == '1' ? 'active' : ''; ?>">
+			<a href="<?= @route($route->id.'&'.$route->group.'&date=1') ?>">
 			    <?= @text('Day') ?>
 			</a> 
 		</li>
 		
-		<li class="<?= $state->time == '2' ? 'active' : ''; ?>">
-			<a href="<?= @route($route->id.'&'.$route->group.'&time=2') ?>">
+		<li class="<?= $state->date == '2' ? 'active' : ''; ?>">
+			<a href="<?= @route($route->id.'&'.$route->group.'&date=2') ?>">
 			    <?= @text('Month') ?>
 			</a> 
 		</li>
 		
-		<li class="<?= $state->time == '3' ? 'active' : ''; ?>">
-			<a href="<?= @route($route->id.'&'.$route->group.'&time=3') ?>">
+		<li class="<?= $state->date == '3' ? 'active' : ''; ?>">
+			<a href="<?= @route($route->id.'&'.$route->group.'&date=3') ?>">
 			    <?= @text('Year') ?>
 			</a> 
 		</li>

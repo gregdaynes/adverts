@@ -9,6 +9,7 @@ class ComAdvertsModelStatistics extends ComDefaultModelDefault
         $this->_state
             ->insert('time',	'int')
             ->insert('group',	'int')
+            ->insert('date',	'int')
             ;
     }
 }
