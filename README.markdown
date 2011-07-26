@@ -1,6 +1,3 @@
-### Other people put stuff here.
-But I'm just gonna keep it as my todo list. Maybe.
-
 # @TODO
 ### Sizes
 Table for storing sizes - figured this would be best to "customize" the drop down lists, also for adding custom sizes to the lists.
@@ -20,7 +17,6 @@ Table for storing sizes - figured this would be best to "customize" the drop dow
 		* thought it would be fun to put charts in stats view (also practice for when I get onto the dashboard)
 
 ### Dashboard
-Lots planned for this. Almost too much.
 
 ### Module
 * re-factor completely and thoroughly test.
@@ -31,6 +27,3 @@ Lots planned for this. Almost too much.
 * Required Fields
 * redirect
 	* seems very very broken in Nooku. Doesn't remember where you were last on save/apply/cancel - going to look into it
-
-### Learn Markdown
-Probably time.

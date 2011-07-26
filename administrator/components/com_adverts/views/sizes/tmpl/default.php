@@ -13,6 +13,15 @@
 				    <?= @helper('grid.sort', array('column' => 'name', 'title' => 'Size')); ?>
 				</th>
 			</tr>
+			<tr>
+			    <td align="center">
+			        <?= @helper( 'grid.checkall'); ?>
+			    </td>
+			    <td></td>
+			    <td align="center"> 
+			        <?= @helper('listbox.published', array('name' => 'enabled')); ?>
+			    </td>
+			</tr>
 		</thead>
 		
 		<tfoot>
@@ -25,7 +34,17 @@
 		
 		<tbody>
 			<? foreach ($sizes as $size) : ?>
-			
+				<tr>
+					<td align="center">
+						<?= @helper('grid.checkbox', array('row' => $size)); ?>
+					</td>
+					<td>
+						<?= @escape($size->name); ?>
+					</td>
+					<td>
+						<?= @escape($size->enabled); ?>
+					</td>
+				</tr>
 			<? endforeach; ?>
 			
 			<? if (!count($sizes)) : ?>
