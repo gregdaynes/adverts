@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access');
+<?php
 
 class ComAdvertsDatabaseTableSizes extends KDatabaseTableDefault
 {
@@ -8,11 +8,11 @@ class ComAdvertsDatabaseTableSizes extends KDatabaseTableDefault
 						
 		$config->append(array(
 
-			'behaviors'	=> array('creatable', 'lockable'),
+			'behaviors'	=> array('creatable'),
 			'column_map'         => array(
 			    'created_on' => 'created',
 			    'locked_on'  => 'checked_out_time',
-			    'locked_by'  => 'checked_out'
+			   'locked_by'  => 'checked_out'
 			)
 
 		));

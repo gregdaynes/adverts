@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access');
+<?php
 
 class ComAdvertsControllerToolbarClients extends ComDefaultControllerToolbarDefault
 {

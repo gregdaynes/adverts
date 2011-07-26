@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access');
+<?php
 
 class ComAdvertsDatabaseTableStatistics_Clicks extends KDatabaseTableDefault
 {

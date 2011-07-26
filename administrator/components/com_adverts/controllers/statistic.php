@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access');
+<?php
 
 class ComAdvertsControllerStatistic extends ComDefaultControllerResource
 {

@@ -1,5 +1,5 @@
 <?php /** $Id: form.php 795 2011-06-21 20:32:00Z media $ */ ?>
-<?php defined('KOOWA') or die('Restricted access'); ?>
+<?php ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -235,11 +235,25 @@
 					<? foreach($statistic->time as $time) : ?>
 					<tr>
 						<td class="indent two">
-							<?= @helper('date.format', array('date' => $time->datetime)) ?>
 							
-							<?= @text(' - '); ?>
+							<? if (!is_numeric($state->date)) : ?>
+								<?= @helper('date.format', array('date' => $time->datetime)) ?>
+								<?= @text(' - '); ?>
+								<?= date("g:00:00 a", strtotime($time->datetime)); ?>
+							<? endif; ?>
 							
-							<?= date("g:i:s a", strtotime($time->datetime)); ?>
+							<? if ($state->date == 1) : ?>
+								<?= @helper('date.format', array('date' => date("Y-m-d", strtotime($time->datetime)))); ?>
+							<? endif; ?>
+							
+							<? if ($state->date == 2) : ?>
+								<?= date("F Y", strtotime($time->datetime)); ?>
+							<? endif; ?>
+							
+							<? if ($state->date == 3) : ?>
+								<?= date("Y", strtotime($time->datetime)); ?>
+							<? endif; ?>
+						
 						</td>
 						<td align="center">
 							<?= $time->impressions; ?>

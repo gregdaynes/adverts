@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access'); ?>
+<?php ?>
 
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>

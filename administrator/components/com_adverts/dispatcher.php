@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access');
+<?php
 
 // custom dispatcher
 class ComAdvertsDispatcher extends ComDefaultDispatcher

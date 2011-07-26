@@ -1,4 +1,4 @@
-<?php defined('KOOWA') or die('Restricted access');
+<?php
 
 class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
 {
@@ -80,9 +80,7 @@ class ComAdvertsModelStatistics_Impressions extends ComDefaultModelDefault
 	      		$state->time = date('Y-01-01 00:00:00', $state->time);
 	      		$end_time	 = date('Y-m-d H:i:s', strtotime($state->time . '+1 year') );
 	      	}
-			
-			
-			
+
         	$query
         		->where('UNIX_TIMESTAMP(tbl.datetime)', '>=', strtotime($state->time))
         		->where('UNIX_TIMESTAMP(tbl.datetime)', '<=', strtotime($end_time))

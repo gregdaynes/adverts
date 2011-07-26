@@ -9,6 +9,7 @@ Table for storing sizes - figured this would be best to "customize" the drop dow
 *	advertiser
 *	campaign
 *	advertisement
+	*	DoW, DoM filters to augment the statistics even more.
 	*	preview
 	*	zones
 	*	notes
@@ -17,8 +18,6 @@ Table for storing sizes - figured this would be best to "customize" the drop dow
 		* dependent on the sizes section - will probably work on next
 	*	charts
 		* thought it would be fun to put charts in stats view (also practice for when I get onto the dashboard)
-	* close/cancel button
-	* print button (for the silly users)
 
 ### Dashboard
 Lots planned for this. Almost too much.
