@@ -179,8 +179,6 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 		
 		foreach($impressions as $impression) {
 		
-			echo $impression->datetime_filter;
-			
 			$clicks = $this->_getStat('clicks', 'total', $location, strtotime($impression->datetime_filter));
 			
 			$impression->clicks = $clicks;

@@ -54,25 +54,29 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
         }
         
         if (is_numeric($state->time)) {
-        	$end_time = 3599; // one hour
+        	if (!is_numeric($state->date)) {
+	        	$state->time = date('Y-m-d H:i:s', $state->time);
+	        	$end_time 	 = date('Y-m-d H:i:s', strtotime($state->time . '+1 hour') );
+	        }
         	
-        	if ($state->date == 1) {
-        		$end_time = 86399; // on day
+        	if ($state->date == 1) {        		
+        		$state->time = date('Y-m-d 00:00:00', $state->time);
+        		$end_time 	 = date('Y-m-d H:i:s', strtotime($state->time . '+1 day') );
         	}
 			
 			if ($state->date == 2) {
 				$state->time = date('Y-m-01 00:00:00', $state->time);
-				$end_time = strtotime($state->time . '+1 month' );
+				$end_time 	 = date('Y-m-01 H:i:s', strtotime($state->time . '+1 month') );
 			}
 			
 			if ($state->date == 3) {
-	      		$state->time = strtotime(date('Y-01-01 00:00:00', $state->time));
-	      		$end_time	= strtotime($state->time . '+1 year');
+	      		$state->time = date('Y-01-01 00:00:00', $state->time);
+	      		$end_time	 = date('Y-01-01 H:i:s', strtotime($state->time . '+1 year') );
 	      	}
-
+			
         	$query
-        		->where('UNIX_TIMESTAMP(tbl.datetime)', '>=', $state->time)
-        		->where('UNIX_TIMESTAMP(tbl.datetime)', '<=', ($state->time + $end_time))
+        		->where('UNIX_TIMESTAMP(tbl.datetime)', '>=', strtotime($state->time))
+        		->where('UNIX_TIMESTAMP(tbl.datetime)', '<=', strtotime($end_time))
         		;
         }
     }
@@ -99,6 +103,12 @@ class ComAdvertsModelStatistics_Clicks extends ComDefaultModelDefault
 			$query
 				->group('YEAR(tbl.datetime)')
 				->group('MONTH(tbl.datetime)')
+				;
+		}
+		
+		if ($state->date == 3) {
+			$query
+				->group('YEAR(tbl.datetime)')
 				;
 		}
 		
