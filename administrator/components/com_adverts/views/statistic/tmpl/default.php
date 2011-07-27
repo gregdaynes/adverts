@@ -1,6 +1,3 @@
-<?php /** $Id: form.php 795 2011-06-21 20:32:00Z media $ */ ?>
-<?php ?>
-
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 <style src="media://com_adverts/css/form.css" />
@@ -181,6 +178,11 @@
 					</tr>			
 				</tbody>
 			</table>
+		</div>
+		
+		<div class="panel chart">
+			<h3><?= @text('Chart'); ?></h3>
+			<?= @template('default_chart'); ?>
 		</div>
 		
 		<div class="panel">

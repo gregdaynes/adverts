@@ -12,6 +12,9 @@
 				<th>
 				    <?= @helper('grid.sort', array('column' => 'name', 'title' => 'Size')); ?>
 				</th>
+				<th width="5">
+				    <?= @helper('grid.sort', array('column' => 'enabled', 'title' => 'Enabled')); ?>
+				</th>
 			</tr>
 			<tr>
 			    <td align="center">
@@ -39,10 +42,12 @@
 						<?= @helper('grid.checkbox', array('row' => $size)); ?>
 					</td>
 					<td>
-						<?= @escape($size->name); ?>
+					    <a href="<?= @route('view=size&id='.$size->id); ?>">
+					    <?= @escape($size->name); ?>
+					    </a>
 					</td>
-					<td>
-						<?= @escape($size->enabled); ?>
+					<td align="center">
+						 <?= @helper('grid.enable', array('row' => $size, 'option' => 'com_adverts', 'view' => 'size')) ?>
 					</td>
 				</tr>
 			<? endforeach; ?>

@@ -1,5 +1,3 @@
-<?php defined('KOOWA') or die( 'Restricted access' ); ?>
-
 <? 
 	$parts = array(
 		'id'	=> KRequest::get('get.id', 'int'),
