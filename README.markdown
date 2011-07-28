@@ -13,8 +13,12 @@ Table for storing sizes - figured this would be best to "customize" the drop dow
 		* thought up something useful. How about a "Print w/ me" checkbox to show hide the notes field in printouts. That way it can be hidden if the printout/pdf/email (when it's done) will not show up to the client
 	*	size
 		* dependent on the sizes section - will probably work on next
-	*	charts
-		* thought it would be fun to put charts in stats view (also practice for when I get onto the dashboard)
+	*	collapsible views
+		* hours is a HUGE list - knew it would be - so let's make it cleaner
+		* make each day collapse hours into accordion
+		* make each month collapse into days
+			* an ad should rarely run for more than a few months, let alone a few years, so no need to collapse further
+
 
 ### Dashboard
 

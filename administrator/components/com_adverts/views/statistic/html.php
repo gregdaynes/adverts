@@ -133,6 +133,7 @@ class ComAdvertsViewStatisticHtml extends ComDefaultViewHtml
 			->set('location', 		$location)
 			->set('time',			$time)
 			->set('date',			$state->date)
+			->set('limit',			0)
 			;
 		
 		if ($style == 'list') {
