@@ -10,16 +10,45 @@ foreach($statistics as $statistic) {
 	// time group
 	foreach($statistic->time as $time) {
 		
-		if (isset($data_array[$time->datetime])) {
-			$data_array[$time->datetime]->impressions += $time->impressions;
-			$data_array[$time->datetime]->impressions += $time->clicks;
-		} else {	
-			$data_array[$time->datetime] = $time;
+		$datetime = null;
+		
+		if (!is_numeric($state->date)) { 
+			$datetime = strtotime(date("Y-m-d g:00:00", strtotime($time->datetime)));
 		}
+		
+		if ($state->date == 1) {
+			$datetime = strtotime(date("Y-m-d 00:00:00", strtotime($time->datetime)));
+		}
+		
+		
+		if ($state->date == 2) {
+			$datetime = strtotime(date("Y-m-01 00:00:00", strtotime($time->datetime)));
+		}
+		
+		if ($state->date == 3) {
+			$datetime = strtotime(date("Y-01-01 00:00:00", strtotime($time->datetime)));
+		}
+		
+		
+		$key = array_search($datetime, $data_array->datetime);
+		
+		if ($key) {
+			$data_array[$key]->impressions += $time->impressions;
+			$data_array[$key]->clicks += $time->clicks;
+			$data_array[$key]->datetime = $datetime;
+		} else {
+			$data_array[] = $time;
+			$data_array[]->datetime = $datetime;
+		}
+
 	}
 }
 
 sort($data_array);
+foreach($data_array as $index=>$data_point) {
+	echo $data_point->datetime."\n";
+}
+exit;
 
 ?>
 
